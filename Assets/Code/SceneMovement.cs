@@ -16,7 +16,7 @@ public class SceneMovement : MonoBehaviour
     /// <summary>
     /// Scene의 번호로 이동
     /// </summary>
-    /// <param name="num"></param>
+    /// <param name="num">이동할 Scene의 list 번호</param>
     public void NumMovement(int num)
     {
         SceneManager.LoadScene(num);
@@ -25,7 +25,7 @@ public class SceneMovement : MonoBehaviour
     /// <summary>
     /// Scene의 이름으로 이동
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">이동할 Scene의 이름</param>
     public void NameMovement(string name)
     {
         SceneManager.LoadScene(name);

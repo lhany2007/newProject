@@ -12,23 +12,23 @@ public class RandomMapGeneration : MonoBehaviour
 
     Tilemap tilemap;
 
-    public Dictionary<Vector3Int, Tile> TileMaps;           // 모든 타일의 현재 상태를 저장
+    public Dictionary<Vector3Int, Tile> TileMaps; // 모든 타일의 현재 상태를 저장
 
-    HashSet<Vector3Int> safeZoneBoundary;           // 중앙 빈 구역의 좌표
+    HashSet<Vector3Int> safeZoneBoundary; // 중앙 빈 구역의 좌표
 
-    public int TreasureChestTotal; // 맵 전체에 분포될 보물상자의 수
+    int TreasureChestTotal = 100; // 맵 전체에 분포될 보물상자의 수
 
     const int MAP_WIDTH = 200;
     const int MAP_HEIGHT = 200;
-    const int CELLULAR_ITERATIONS = 20;  // 셀룰러 오토마타 스무딩 반복 횟수
-    const int MIN_ROOM_SIZE = 10;        // 방이 유효하다고 판단되는 최소 크기(TreasureChestTile 생성할 때 사용)
+    const int CELLULAR_ITERATIONS = 20; // 셀룰러 오토마타 스무딩 반복 횟수
+    const int MIN_ROOM_SIZE = 10; // 방이 유효하다고 판단되는 최소 크기(TreasureChestTile 생성할 때 사용)
 
     readonly System.Random random = new System.Random();
 
     // 빈 구역의 크기를 계산을 위한 값들
-    readonly int safeZoneRadius = 20;                // 중앙 빈 구역 지대의 반경
-    readonly int safeZoneRadiusSquared;             // 더 빠른 거리 확인을 위한 제곱된 반경
-    readonly int outerSafeZoneRadius;               // 빈 부분의 경계 반경
+    readonly int safeZoneRadius = 20; // 중앙 빈 구역 지대의 반경
+    readonly int safeZoneRadiusSquared; // 더 빠른 거리 확인을 위한 제곱된 반경
+    readonly int outerSafeZoneRadius; // 빈 부분의 경계 반경
     readonly int outerSafeZoneRadiusSquared;
     readonly int mapCenterX = MAP_WIDTH / 2;
     readonly int mapCenterY = MAP_HEIGHT / 2;
@@ -36,10 +36,10 @@ public class RandomMapGeneration : MonoBehaviour
     // 방향
     static readonly Vector3Int[] adjacentDirections =
     {
-        new(1, 0, 0),   // 오른쪽
-        new(-1, 0, 0),  // 왼쪽
-        new(0, 1, 0),   // 위
-        new(0, -1, 0)   // 아래
+        new(1, 0, 0), // 오른쪽
+        new(-1, 0, 0), // 왼쪽
+        new(0, 1, 0), // 위
+        new(0, -1, 0) // 아래
     };
 
     /// <summary>
@@ -68,8 +68,6 @@ public class RandomMapGeneration : MonoBehaviour
 
     void Start()
     {
-        TreasureChestTotal = 100;
-
         InitializeRandomMap();           // 초기 랜덤 노이즈 생성
         CreateSafeZone();               // 중앙 빈 구역 생성
         ApplyCellularAutomata();        // 셀룰러 오토마타를 사용하여 맵 스무딩
