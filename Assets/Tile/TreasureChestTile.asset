@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: TreasureChestTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -5936757054762323199, guid: f444ea3d8085b714f9674c73f4815f62, type: 3}
+  m_Sprite: {fileID: 7793962618752990514, guid: 3c952a1e344a74c48b70295ef0fd5d7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -31,6 +31,6 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 1
-  m_InstancedGameObject: {fileID: 3473490332456280388, guid: 2c139e3bd0b38154bb16c980cc722233, type: 3}
+  m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1

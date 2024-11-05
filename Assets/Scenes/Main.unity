@@ -899,17 +899,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1832067200}
-  expOrbPrefabs:
+  expOrbPrefabList:
   - {fileID: 6395461350646411805, guid: c94a572bcbc48a741afd5236e4a5ac23, type: 3}
   - {fileID: 7072802103239604800, guid: aab617eba94c69741ac5826ac590cd89, type: 3}
   - {fileID: 9037393826774437910, guid: fb11bc0e991801446887d2c16e1f8d46, type: 3}
   - {fileID: 1567134135532928683, guid: c8c3e67216e6cee41bf94373f1766456, type: 3}
   - {fileID: 2753861864678978194, guid: b2f9d4beaf7c9304581410e0ccb8b33a, type: 3}
-  baseSpawnRadius: 8
-  spawnVariance: 2
-  spawnBatchSize: 5
-  regenerationTime: 2
-  initialPoolSize: 20
+  BaseSpawnRadius: 8
+  SpawnVariance: 2
+  SpawnBatchSize: 5
+  RegenerationTime: 2
+  InitialPoolSize: 20
+  ExpandPoolSize: 5
 --- !u!4 &881019150
 Transform:
   m_ObjectHideFlags: 0
@@ -937,9 +938,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db1835e1b42cb0544a4b35b364c0261e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 0
-  nextTierTime: 180
-  currentTier: 0
+  GameTime: 0
+  NextTierTime: 180
+  CurrentTier: 0
   onTierChange:
     m_PersistentCalls:
       m_Calls: []
@@ -1901,7 +1902,7 @@ MonoBehaviour:
   CurrentExpText: {fileID: 134833958}
   ExpMaxValue: 30
   CurrentLevel: 1
-  levelUpThreshold: 3
+  LevelUpThreshold: 3
   ExpGrowthRate:
   - 3
   - 6
@@ -2025,6 +2026,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1832067200}
   - {fileID: 94164901}
+  - {fileID: 881019150}
   - {fileID: 1520123717}
   - {fileID: 816303192}
-  - {fileID: 881019150}
