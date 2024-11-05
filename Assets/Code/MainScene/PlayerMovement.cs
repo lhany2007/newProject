@@ -9,9 +9,11 @@ public class PlayerMovement : MonoBehaviour
 
     // 애니메이션 파라미터 이름
     const string IS_MOVING = "IsMoving";
+    const string MOVE_X = "moveX";
     const string MOVE_Y = "moveY";
     const string IS_MOVING_X = "isMovingX";
     const string IS_MOVING_Y = "isMovingY";
+    const string IS_MOUSE_CLICKED = "isMouseClicked";
 
     // 마지막 방향을 저장할 변수 추가
     float lastHorizontalDirection = 1f;
@@ -47,25 +49,34 @@ public class PlayerMovement : MonoBehaviour
         // 마지막 방향을 기준으로 좌우 반전
         transform.localScale = new Vector3(lastHorizontalDirection, 1, 1);
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            SwordAttackAnimation.Instance.Ani.SetTrigger(IS_MOUSE_CLICKED);
+            /* 
+            여기에 공격 애니매이션 추가
+            animator.SetBool(IS_MOUSE_CLICKED);
+            */
+        }
+
         UpdateAnimationStates();
     }
 
     void UpdateAnimationStates()
     {
-        // 캐릭터가 이동 중인지 확인
-        if (inputVector.magnitude > 0)
-        {
-            animator.SetBool(IS_MOVING, true);
-            animator.SetFloat(MOVE_Y, inputVector.y);
-        }
-        else
-        {
-            animator.SetBool(IS_MOVING, false);
-        }
-        // X 및 Y 이동 상태 업데이트
-        animator.SetBool(IS_MOVING_X, inputVector.x != 0);
-        animator.SetBool(IS_MOVING_Y, inputVector.y != 0);
+        // 기본 이동 플래그
+        animator.SetBool(IS_MOVING, inputVector.magnitude > 0);
+        animator.SetFloat(MOVE_X, inputVector.x);
+        animator.SetFloat(MOVE_Y, inputVector.y);
+
+        // 대각선 이동 시 수평 애니메이션을 우선으로 설정
+        bool isDiagonal = inputVector.x != 0 && inputVector.y != 0;
+        bool isHorizontalPriority = Mathf.Abs(inputVector.x) >= Mathf.Abs(inputVector.y);
+
+        // 수평/수직 플래그 설정
+        animator.SetBool(IS_MOVING_X, inputVector.x != 0 && (!isDiagonal || isHorizontalPriority));
+        animator.SetBool(IS_MOVING_Y, inputVector.y != 0 && (!isDiagonal || !isHorizontalPriority));
     }
+
 
     void FixedUpdate()
     {
