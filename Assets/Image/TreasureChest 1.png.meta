@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 3c952a1e344a74c48b70295ef0fd5d7f
+guid: da2eec6a08d63d044aaadac769f3fd2f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7793962618752990514
-    second: TreasureChest_0
-  - first:
-      213: 7429822970295999662
-    second: TreasureChest_1
-  - first:
-      213: -347051714107185806
-    second: TreasureChest_2
+      213: -4930144082353617600
+    second: TreasureChest 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 15
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TreasureChest_0
+      name: TreasureChest 1_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 0
         y: 0
-        width: 12
-        height: 9
+        width: 16
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23df17325b7b92c60800000000000000
-      internalID: 7793962618752990514
+      spriteID: 04581dff31c949bb0800000000000000
+      internalID: -4930144082353617600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TreasureChest_1
+      name: TreasureChest 1_1
       rect:
         serializedVersion: 2
-        x: 18
+        x: 16
         y: 0
-        width: 12
-        height: 10
+        width: 16
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: eacd78860a80c1760800000000000000
-      internalID: 7429822970295999662
+      spriteID: e564356d4870206439cb239a659a6871
+      internalID: 1608800483
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TreasureChest_2
+      name: TreasureChest 1_2
       rect:
         serializedVersion: 2
-        x: 34
+        x: 32
         y: 0
-        width: 12
-        height: 10
+        width: 16
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 27563f50e460f2bf0800000000000000
-      internalID: -347051714107185806
+      spriteID: 024b3be547bc4fa41968d396a26a7c53
+      internalID: 891293179
       vertices: []
       indices: 
       edges: []
@@ -188,7 +182,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 28380e373a6a6ae48b106d6b6b82e468
     internalID: 0
     vertices: []
     indices: 
@@ -198,9 +192,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TreasureChest_0: 7793962618752990514
-      TreasureChest_1: 7429822970295999662
-      TreasureChest_2: -347051714107185806
+      TreasureChest 1_0: -4930144082353617600
+      TreasureChest 1_1: 1608800483
+      TreasureChest 1_2: 891293179
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
