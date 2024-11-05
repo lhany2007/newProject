@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class PlayerMovement : MonoBehaviour
 {
     public float MoveSpeed;
@@ -13,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     const string MOVE_Y = "moveY";
     const string IS_MOVING_X = "isMovingX";
     const string IS_MOVING_Y = "isMovingY";
+
+    // 마지막 방향을 저장할 변수 추가
+    float lastHorizontalDirection = 1f;
 
     void Awake()
     {
@@ -36,11 +38,14 @@ public class PlayerMovement : MonoBehaviour
             inputVector.Normalize();
         }
 
-        // 좌우 반전
+        // 수평 입력이 있을 때만 마지막 방향 업데이트
         if (inputVector.x != 0)
         {
-            transform.localScale = new Vector3(Mathf.Sign(inputVector.x), 1, 1);
+            lastHorizontalDirection = Mathf.Sign(inputVector.x);
         }
+
+        // 마지막 방향을 기준으로 좌우 반전
+        transform.localScale = new Vector3(lastHorizontalDirection, 1, 1);
 
         UpdateAnimationStates();
     }
@@ -57,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool(IS_MOVING, false);
         }
-
         // X 및 Y 이동 상태 업데이트
         animator.SetBool(IS_MOVING_X, inputVector.x != 0);
         animator.SetBool(IS_MOVING_Y, inputVector.y != 0);

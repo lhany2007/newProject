@@ -6,17 +6,19 @@ public class ExpOrbSpawner : MonoBehaviour
 {
     public static ExpOrbSpawner Instance;
 
-    [SerializeField] Transform player;
+    [SerializeField] Transform player; // 플레이어 참조
     [SerializeField] List<GameObject> expOrbPrefabs;
 
-    int expSpawnCount = 3; // 한 번에 생성할 경험치 오브 수
-    float regenerationTime = 2f; // 오브 생성 주기
-    float maximumSpawnDistance = 5f; // 최대 생성 거리
-    int initialPoolSize = 20; // 초기 풀 크기
+    [Header("Spawn Settings")]
+    public float baseSpawnRadius = 8f;
+    public float spawnVariance = 2f;
+    public int spawnBatchSize = 5;
+    public float regenerationTime = 2f;
+    public int initialPoolSize = 20;
 
-    // 각 경험치 오브 타입에 대한 객체 풀
-    Dictionary<int, Queue<GameObject>> expOrbPools;
-    Transform poolContainer;
+    private const string EXP_TAG = "Exp";
+    private Dictionary<int, Queue<GameObject>> expOrbPools;
+    private Transform poolContainer;
 
     void Awake()
     {
@@ -24,147 +26,124 @@ public class ExpOrbSpawner : MonoBehaviour
         {
             Instance = this;
         }
-
         InitializeObjectPools();
     }
 
     void Start()
     {
-        // 경험치 오브를 주기적으로 생성
         StartCoroutine(GenerateRandomSpawnLocations());
+        TimeManager.Instance.onTierChange.AddListener(OnTierChange);
     }
 
-    /// <summary>
-    /// 구슬을 미리 인스턴스화
-    /// </summary>
+    // 티어 변경 시 모든 오브를 새 티어로 교체하는 함수
+    void OnTierChange(int newTier)
+    {
+        ReplaceAllOrbsWithNewTier(newTier);
+    }
+
+    void ReplaceAllOrbsWithNewTier(int newTier)
+    {
+        var activeOrbs = GameObject.FindGameObjectsWithTag(EXP_TAG); // 현재 활성화된 오브 리스트를 가져옴
+
+        foreach (var orb in activeOrbs)
+        {
+            Vector3 oldPosition = orb.transform.position; // 기존 위치 저장
+
+            // 기존 오브를 풀로 반환
+            int oldType = int.Parse(orb.name.Split('_')[1]);
+            CollectExpOrb(orb, oldType);
+
+            // 새로운 오브 생성
+            SpawnExpOrb(oldPosition, newTier);
+        }
+    }
+
+    // 객체 풀을 초기화하는 함수
     void InitializeObjectPools()
     {
-        // 각 타입의 경험치 오브를 위한 객체 풀 초기화
         expOrbPools = new Dictionary<int, Queue<GameObject>>();
-        poolContainer = new GameObject("ExpOrbPool").transform;
-        poolContainer.SetParent(transform);
+        poolContainer = new GameObject("ExpOrbPoolContainer").transform; // 풀 컨테이너 생성
 
+        // 각 타입에 대해 객체 풀 생성
         for (int i = 0; i < expOrbPrefabs.Count; i++)
         {
-            Queue<GameObject> pool = new Queue<GameObject>();
+            var pool = new Queue<GameObject>();
+
+            // 초기 풀 크기만큼 오브를 미리 생성
             for (int j = 0; j < initialPoolSize; j++)
             {
-                CreateNewExpOrb(i, pool); // 새 오브 생성
+                var newObj = Instantiate(expOrbPrefabs[i], poolContainer);
+                newObj.SetActive(false);
+                pool.Enqueue(newObj);
             }
-            expOrbPools[i] = pool; 
+
+            expOrbPools.Add(i, pool);
         }
     }
 
-    void CreateNewExpOrb(int orbType, Queue<GameObject> pool)
+    // 랜덤 스폰 위치를 생성하는 코루틴
+    IEnumerator GenerateRandomSpawnLocations()
     {
-        if (orbType >= expOrbPrefabs.Count)
+        while (true)
         {
-            Debug.LogError($"잘못된 오브 타입: {orbType}. 최대 타입은 {expOrbPrefabs.Count - 1}");
-            return;
-        }
+            for (int i = 0; i < spawnBatchSize; i++)
+            {
+                Vector2 spawnPos = Random.insideUnitCircle * baseSpawnRadius + (Vector2)player.position;
+                spawnPos += new Vector2(Random.Range(-spawnVariance, spawnVariance),
+                                      Random.Range(-spawnVariance, spawnVariance));
 
-        GameObject orb = Instantiate(expOrbPrefabs[orbType], poolContainer); // 인스턴스화 
-        orb.SetActive(false);
-        pool.Enqueue(orb);
+                int orbType = Mathf.Min(TimeManager.Instance.currentTier, expOrbPrefabs.Count - 1);
+
+                // 풀에 사용 가능한 오브가 있는지 확인
+                if (expOrbPools[orbType].Count > 0)
+                {
+                    SpawnExpOrb(spawnPos, orbType);
+                }
+                else
+                {
+                    // 필요한 경우 풀 확장
+                    ExpandPool(orbType);
+                    SpawnExpOrb(spawnPos, orbType);
+                }
+            }
+
+            yield return new WaitForSeconds(regenerationTime);
+        }
     }
 
-    GameObject GetExpOrbFromPool(int orbType)
+    // 필요 시 풀 확장하는 새로운 메서드
+    void ExpandPool(int orbType)
     {
-        if (!expOrbPools.TryGetValue(orbType, out Queue<GameObject> pool))
-        {
-            Debug.LogError($"오브 타입 {orbType}에 대한 풀이 없음");
-            return null;
-        }
+        var newObj = Instantiate(expOrbPrefabs[orbType], poolContainer);
+        newObj.SetActive(false);
+        expOrbPools[orbType].Enqueue(newObj);
+    }
 
-        if (pool.Count == 0)
-        {
-            CreateNewExpOrb(orbType, pool);
-        }
-
-        GameObject orb = pool.Dequeue();
+    // 경험치 오브를 스폰하는 함수
+    void SpawnExpOrb(Vector3 position, int orbType)
+    {
+        // 풀에서 오브를 가져옴
+        var orb = expOrbPools[orbType].Dequeue();
+        orb.transform.position = position;
+        orb.name = $"ExpOrb_{orbType}";
         orb.SetActive(true);
-        return orb;
     }
 
-    /// <summary>
-    /// 사용이 끝난 오브를 비활성화하고 풀에 반환
-    /// </summary>
-    void ReturnToPool(GameObject orb, int orbType)
+    // 오브를 다시 풀로 반환하는 함수
+    public void CollectExpOrb(GameObject orb, int orbType)
     {
         orb.SetActive(false);
         expOrbPools[orbType].Enqueue(orb);
     }
 
-    /// <summary>
-    /// 주기적으로 랜덤 위치에 경험치 오브 생성
-    /// </summary>
-    IEnumerator GenerateRandomSpawnLocations()
+    // 플레이어 근처에서 경험치 오브를 스폰하는 함수
+    public void SpawnOrbsNearPlayer(int numOrbs)
     {
-        WaitForSeconds wait = new WaitForSeconds(regenerationTime);
-        while (true)    
+        for (int i = 0; i < numOrbs; i++)
         {
-            SpawnExpOrbsOverTime();
-            yield return wait;
+            Vector2 spawnPos = Random.insideUnitCircle * baseSpawnRadius + (Vector2)player.position;
+            int orbType = Mathf.Min(TimeManager.Instance.currentTier, expOrbPrefabs.Count - 1); // 현재 티어에 맞는 오브 타입 결정
+            SpawnExpOrb(spawnPos, orbType);
         }
-    }
-
-    void SpawnExpOrbsOverTime()
-    {
-        int orbType = Mathf.Min(0, expOrbPrefabs.Count - 1); // 기본값은 첫 번째 타입
-        Vector2 playerPos = player.position;
-
-        for (int i = 0; i < expSpawnCount; i++)
-        {
-            // 원형 패턴으로 위치 생성
-            float angle = (360f / expSpawnCount) * i;
-            float randomDistance = Random.Range(0, maximumSpawnDistance);
-            Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
-            Vector2 spawnPosition = playerPos + (direction * randomDistance);
-
-            GameObject orb = GetExpOrbFromPool(orbType);
-            if (orb != null)
-            {
-                orb.transform.position = spawnPosition;
-
-                // 일정 시간 후 자동으로 풀로 반환
-                StartCoroutine(ReturnOrbAfterDelay(orb, orbType));
-            }
-        }
-    }
-
-    IEnumerator ReturnOrbAfterDelay(GameObject orb, int orbType)
-    {
-        yield return new WaitForSeconds(10f);
-
-        if (orb.activeInHierarchy)
-        {
-            ReturnToPool(orb, orbType);
-        }
-    }
-
-    public void SpawnDropExpOrb(GameObject deadMonster, int monsterDifficulty)
-    {
-        if (monsterDifficulty >= expOrbPrefabs.Count)
-        {
-            Debug.LogError($"몬스터 난이도 {monsterDifficulty}가 사용 가능한 경험치 오브 타입을 초과함");
-            monsterDifficulty = expOrbPrefabs.Count - 1;
-        }
-
-        GameObject orb = GetExpOrbFromPool(monsterDifficulty);
-        if (orb != null)
-        {
-            orb.transform.position = deadMonster.transform.position;
-            StartCoroutine(ReturnOrbAfterDelay(orb, monsterDifficulty));
-        }
-    }
-
-    /// <summary>
-    /// 경험치 오브를 플레이어가 수집할 때 풀로 반환하는 메소드
-    /// </summary>
-    /// <param name="orb"></param>
-    /// <param name="orbType"></param>
-    public void CollectExpOrb(GameObject orb, int orbType)
-    {
-        ReturnToPool(orb, orbType);
     }
 }
