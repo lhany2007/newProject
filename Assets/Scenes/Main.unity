@@ -484,6 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8538d5777af69942924422962625aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ani: {fileID: 0}
 --- !u!95 &247816053
 Animator:
   serializedVersion: 7
@@ -571,6 +572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 496366067}
   - component: {fileID: 496366068}
+  - component: {fileID: 496366069}
   m_Layer: 5
   m_Name: HpSlider
   m_TagString: Untagged
@@ -652,6 +654,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &496366069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496366066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb07abb999d5174fb4747d04038764f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1832067200}
+  offset: {x: 0, y: 0.42, z: 0}
 --- !u!1 &746604258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,6 +1712,7 @@ GameObject:
   - component: {fileID: 1832067198}
   - component: {fileID: 1832067197}
   - component: {fileID: 1832067201}
+  - component: {fileID: 1832067204}
   - component: {fileID: 1832067202}
   - component: {fileID: 1832067203}
   m_Layer: 0
@@ -1911,6 +1928,19 @@ MonoBehaviour:
   - 15
   - 18
   - 21
+--- !u!114 &1832067204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832067196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f74b587efa367c14aa78f9264af7658d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPSlider: {fileID: 496366068}
 --- !u!1 &1873982040
 GameObject:
   m_ObjectHideFlags: 0
