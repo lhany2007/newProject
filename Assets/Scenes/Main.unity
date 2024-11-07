@@ -1170,6 +1170,8 @@ GameObject:
   - component: {fileID: 881019151}
   - component: {fileID: 881019153}
   - component: {fileID: 881019152}
+  - component: {fileID: 881019155}
+  - component: {fileID: 881019156}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1267,6 +1269,38 @@ MonoBehaviour:
   - {fileID: 1145055288}
   - {fileID: 496366068}
   - {fileID: 323589054}
+--- !u!114 &881019155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881019148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d99fad142b8374e8634e9762db515c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  maxHP: 100
+--- !u!114 &881019156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881019148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8d00bd349f2cf4384bca568b0b0ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterPrefab: {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
+  spawnRadius: 10
+  spawnInterval: 1
+  maxMonsters: 20
+  monsterMaxHP: 100
+  player: {fileID: 1832067200}
 --- !u!1 &940679144
 GameObject:
   m_ObjectHideFlags: 0
