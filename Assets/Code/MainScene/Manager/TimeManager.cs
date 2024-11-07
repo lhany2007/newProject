@@ -1,14 +1,21 @@
 using UnityEngine;
-using System;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
+    [Header("Times")]
     public float GameTime = 0f;
+    public float OxygeTime = 0f;
     public float NextTierTime = 180f; // 다음 티어까지의 시간
+    public float PlayerDeathTime = 900f;
+
     public int CurrentTier = 0; // 현재 경험치 구슬의 티어
+    public int DebuffIndex = 0;
+
+    public Slider OxygeSlider;
 
     public UnityEvent<int> onTierChange; // 티어가 변경될 때 발생하는 이벤트
 
@@ -25,9 +32,17 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        OxygeSlider.maxValue = PlayerDeathTime;
+        OxygeSlider.value = PlayerDeathTime;
+        InvokeRepeating("UpdateOxygeSlider", 1f, 1f);
+    }
+
     void Update()
     {
         GameTime += Time.deltaTime;
+        OxygeTime += Time.deltaTime;
 
         if (GameTime >= NextTierTime) // 티어 변경 조건
         {
@@ -35,11 +50,21 @@ public class TimeManager : MonoBehaviour
             GameTime = 0f;
             onTierChange.Invoke(CurrentTier); // 티어 변경 이벤트 호출
         }
+
+        if (OxygeTime >= PlayerDeathTime)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
     // 다음 티어까지 남은 시간을 반환하는 함수
     public float GetTimeUntilNextTier()
     {
         return NextTierTime - GameTime;
+    }
+
+    void UpdateOxygeSlider()
+    {
+        OxygeSlider.value = PlayerDeathTime - OxygeTime;
     }
 }
