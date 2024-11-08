@@ -215,25 +215,62 @@ public class RandomMapGeneration : MonoBehaviour
 
         if (availableRooms.Count == 0)
         {
+            Debug.LogWarning("보물상자를 놓을 수 있는 유효한 방을 찾을 수 없음");
             return;
         }
-
         int remainingCollectibles = TreasureChestTotal;
-        int collectiblesPerRoom = Mathf.Max(1, remainingCollectibles / availableRooms.Count);
+        int attempts = 0;
+        const int maxAttempts = 1000; // 무한 루프 방지
 
+        int collectiblesPerRoom = Mathf.Max(1, TreasureChestTotal / availableRooms.Count);
         foreach (var room in availableRooms)
         {
-            var roomTiles = room.ToArray();
+            var validPositions = GetValidPositionsInRoom(room);
+            if (validPositions.Count == 0) continue;
+
             for (int i = 0; i < collectiblesPerRoom && remainingCollectibles > 0; i++)
             {
-                Vector3Int randomPosition = roomTiles[random.Next(roomTiles.Length)];
-                if (HasRequiredSpacing(randomPosition))
+                if (PlaceCollectibleInRoom(validPositions))
                 {
-                    TileMaps[randomPosition] = TreasureChestTile;
                     remainingCollectibles--;
                 }
             }
         }
+
+        while (remainingCollectibles > 0 && attempts < maxAttempts)
+        {
+            foreach (var room in availableRooms)
+            {
+                if (remainingCollectibles <= 0) break;
+
+                var validPositions = GetValidPositionsInRoom(room);
+                if (validPositions.Count > 0 && PlaceCollectibleInRoom(validPositions))
+                {
+                    remainingCollectibles--;
+                }
+            }
+            attempts++;
+        }
+
+        if (remainingCollectibles > 0)
+        {
+            Debug.LogWarning($"Could only place {TreasureChestTotal - remainingCollectibles} out of {TreasureChestTotal} treasure chests. Consider adjusting parameters.");
+        }
+    }
+
+    List<Vector3Int> GetValidPositionsInRoom(HashSet<Vector3Int> room)
+    {
+        return room.Where(pos => HasRequiredSpacing(pos) && TileMaps[pos] != TreasureChestTile).ToList();
+    }
+
+    bool PlaceCollectibleInRoom(List<Vector3Int> validPositions)
+    {
+        if (validPositions.Count == 0) return false;
+
+        int randomIndex = random.Next(validPositions.Count);
+        Vector3Int position = validPositions[randomIndex];
+        TileMaps[position] = TreasureChestTile;
+        return true;
     }
 
     /// <summary>
@@ -243,16 +280,14 @@ public class RandomMapGeneration : MonoBehaviour
     {
         Vector3Int checkPosition = new();
         // 위치 주변의 3x3 영역을 확인
-        for (int x = -1; x <= 1; x++)
+        foreach (var direction in adjacentDirections)
         {
-            for (int y = -1; y <= 1; y++)
+            checkPosition.x = position.x + direction.x;
+            checkPosition.y = position.y + direction.y;
+
+            if (!IsValidPosition(checkPosition) || TileMaps[checkPosition] == TreasureChestTile)
             {
-                checkPosition.x = position.x + x;
-                checkPosition.y = position.y + y;
-                if (!TileMaps.ContainsKey(checkPosition) || TileMaps[checkPosition] != null)
-                {
-                    return false;
-                }
+                return false;
             }
         }
         return true;

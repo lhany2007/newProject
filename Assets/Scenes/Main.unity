@@ -830,6 +830,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1832067200}
   offset: {x: 0, y: 0.36, z: 0}
+--- !u!1 &601337331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601337334}
+  - component: {fileID: 601337333}
+  - component: {fileID: 601337332}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &601337332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601337331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8d00bd349f2cf4384bca568b0b0ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterPrefab: {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
+  spawnRadius: 10
+  spawnInterval: 1
+  maxMonsters: 20
+  monsterMaxHP: 100
+  player: {fileID: 1832067200}
+--- !u!114 &601337333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601337331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5117c367fd6a9544c942a34d24a1ca99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1832067200}
+  expOrbPrefabList:
+  - {fileID: 6395461350646411805, guid: c94a572bcbc48a741afd5236e4a5ac23, type: 3}
+  - {fileID: 7072802103239604800, guid: aab617eba94c69741ac5826ac590cd89, type: 3}
+  - {fileID: 9037393826774437910, guid: fb11bc0e991801446887d2c16e1f8d46, type: 3}
+  - {fileID: 1567134135532928683, guid: c8c3e67216e6cee41bf94373f1766456, type: 3}
+  - {fileID: 2753861864678978194, guid: b2f9d4beaf7c9304581410e0ccb8b33a, type: 3}
+  BaseSpawnRadius: 8
+  SpawnVariance: 2
+  SpawnBatchSize: 5
+  RegenerationTime: 2
+  InitialPoolSize: 20
+  ExpandPoolSize: 5
+--- !u!4 &601337334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601337331}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0801124, y: 0.881688, z: -0.10624115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &736124549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,12 +1242,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 881019150}
-  - component: {fileID: 881019149}
   - component: {fileID: 881019151}
   - component: {fileID: 881019153}
   - component: {fileID: 881019152}
   - component: {fileID: 881019155}
-  - component: {fileID: 881019156}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1179,31 +1253,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &881019149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881019148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5117c367fd6a9544c942a34d24a1ca99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1832067200}
-  expOrbPrefabList:
-  - {fileID: 6395461350646411805, guid: c94a572bcbc48a741afd5236e4a5ac23, type: 3}
-  - {fileID: 7072802103239604800, guid: aab617eba94c69741ac5826ac590cd89, type: 3}
-  - {fileID: 9037393826774437910, guid: fb11bc0e991801446887d2c16e1f8d46, type: 3}
-  - {fileID: 1567134135532928683, guid: c8c3e67216e6cee41bf94373f1766456, type: 3}
-  - {fileID: 2753861864678978194, guid: b2f9d4beaf7c9304581410e0ccb8b33a, type: 3}
-  BaseSpawnRadius: 8
-  SpawnVariance: 2
-  SpawnBatchSize: 5
-  RegenerationTime: 2
-  InitialPoolSize: 20
-  ExpandPoolSize: 5
 --- !u!4 &881019150
 Transform:
   m_ObjectHideFlags: 0
@@ -1283,24 +1332,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
   maxHP: 100
---- !u!114 &881019156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881019148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f8d00bd349f2cf4384bca568b0b0ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterPrefab: {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
-  spawnRadius: 10
-  spawnInterval: 1
-  maxMonsters: 20
-  monsterMaxHP: 100
-  player: {fileID: 1832067200}
 --- !u!1 &940679144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,7 +1898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6071428, g: 1, b: 0.21428567, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2288,6 +2319,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1832067200}
   - {fileID: 94164901}
-  - {fileID: 881019150}
   - {fileID: 1520123717}
+  - {fileID: 601337334}
+  - {fileID: 881019150}
   - {fileID: 816303192}
