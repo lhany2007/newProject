@@ -218,18 +218,28 @@ public class RandomMapGeneration : MonoBehaviour
             Debug.LogWarning("보물상자를 놓을 수 있는 유효한 방을 찾을 수 없음");
             return;
         }
+
         int remainingCollectibles = TreasureChestTotal;
         int attempts = 0;
         const int maxAttempts = 1000; // 무한 루프 방지
 
         int collectiblesPerRoom = Mathf.Max(1, TreasureChestTotal / availableRooms.Count);
+        // 모든 방에 고르게 보물 상자를 분배 시도
         foreach (var room in availableRooms)
         {
+            // 이 방에서 보물 상자를 배치할 수 있는 모든 유효한 위치를 가져옴
             var validPositions = GetValidPositionsInRoom(room);
-            if (validPositions.Count == 0) continue;
 
+            // 유효한 위치가 없으면 이 방을 건너뜀
+            if (validPositions.Count == 0)
+            {
+                continue;
+            }
+
+            // 계산된 수만큼의 상자를 이 방에 배치 시도
             for (int i = 0; i < collectiblesPerRoom && remainingCollectibles > 0; i++)
             {
+                // 상자 배치를 시도하고 성공하면 남은 개수를 감소
                 if (PlaceCollectibleInRoom(validPositions))
                 {
                     remainingCollectibles--;
@@ -237,12 +247,19 @@ public class RandomMapGeneration : MonoBehaviour
             }
         }
 
+        // 남은 상자를 배치할 때까지 계속 시도하거나 최대 시도 횟수에 도달할 때까지 반복
         while (remainingCollectibles > 0 && attempts < maxAttempts)
         {
+            // 남은 상자를 배치할 수 있도록 각 방을 다시 시도
             foreach (var room in availableRooms)
             {
-                if (remainingCollectibles <= 0) break;
+                // 모든 상자가 배치되면 중단
+                if (remainingCollectibles <= 0)
+                {
+                    break;
+                }
 
+                // 유효한 위치를 가져오고 위치가 있으면 상자를 배치 시도
                 var validPositions = GetValidPositionsInRoom(room);
                 if (validPositions.Count > 0 && PlaceCollectibleInRoom(validPositions))
                 {
@@ -254,22 +271,44 @@ public class RandomMapGeneration : MonoBehaviour
 
         if (remainingCollectibles > 0)
         {
-            Debug.LogWarning($"Could only place {TreasureChestTotal - remainingCollectibles} out of {TreasureChestTotal} treasure chests. Consider adjusting parameters.");
+            Debug.LogWarning($"총 {TreasureChestTotal} 개의 보물 상자 중 {TreasureChestTotal - remainingCollectibles} 개만 배치됨. 파라미터 조정 ㄱㄱ");
         }
     }
 
+    /// <summary>
+    /// 보물 상자를 배치할 수 있는 방의 유효한 위치 목록을 반환.
+    /// 유효한 위치는 다른 상자들과의 일정한 간격을 유지하며 비어 있어야 함.
+    /// </summary>
+    /// <param name="room">방을 구성하는 타일 위치의 집합</param>
+    /// <returns>보물 상자를 안전하게 배치할 수 있는 위치 목록</returns>
     List<Vector3Int> GetValidPositionsInRoom(HashSet<Vector3Int> room)
     {
+        // 방의 위치 중에서 다음 조건을 충족하는 위치만 필터링:
+        // 1. 주위에 충분한 공간이 있는지 확인 (HasRequiredSpacing)
+        // 2. 해당 위치에 이미 보물 상자가 없는지 확인
         return room.Where(pos => HasRequiredSpacing(pos) && TileMaps[pos] != TreasureChestTile).ToList();
     }
 
+    /// <summary>
+    /// 방의 유효한 위치 중 무작위로 선택하여 보물 상자를 배치 시도
+    /// </summary>
+    /// <param name="validPositions">보물 상자를 배치할 수 있는 위치 목록</param>
+    /// <returns>배치가 성공하면 true, 유효한 위치가 없으면 false를 반환</returns>
     bool PlaceCollectibleInRoom(List<Vector3Int> validPositions)
     {
-        if (validPositions.Count == 0) return false;
+        // 유효한 위치가 없으면 보물 상자를 배치할 수 없음
+        if (validPositions.Count == 0)
+        {
+            return false;
+        }
 
+        // 유효한 위치 중 무작위로 위치를 선택
         int randomIndex = random.Next(validPositions.Count);
         Vector3Int position = validPositions[randomIndex];
+
+        // 선택된 위치에 보물 상자를 배치
         TileMaps[position] = TreasureChestTile;
+
         return true;
     }
 
