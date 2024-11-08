@@ -1,0 +1,39 @@
+기본 설정:
+git config --global user.name "Your Name" -> 깃허브 닉네임
+git config --global user.email "your.email@example.com" -> 깃허브를 가입한 이메일
+
+다음은 올릴 폴더 ex) My project
+면 My prject에 가서 해야됨
+
+git init
+git remote add origin 리포지토리 주소
+git branch -m master main
+git pull origin main
+
+git add .
+git commit -m "First commit"
+git push
+
+
+병합
+git pull origin main --allow-unrelated-histories
+
+
+켜밋 되돌리기
+git log --oneline
+되돌리고 싶은 타임라인 ex) 
+$ git log --oneline
+74aab7c (HEAD -> main, origin/main) 플레이어 대각선 애니매이션 제거 및 플레이어 z축 고정
+ccf0def 플레이어 대각선 애니매이션 제거 및 플레이어 z축 고정
+edc92c6 벽 및 보물상자의 이미지와 타일, 타일맵, 랜덤 맵 생성 스크립트 추가
+79d68bb 플레이어의 상하좌우 대각선 애니매이션과 좌우반전 추가
+8029704 플레이어와 플레이어의 기본 움직임을 관리하는 스크립트 추가
+e647629 인트로 씬 업데이트
+1cb5729 버튼 클릭 시 씬 전환 기능 추가 (SceneMovementHandler)
+b1677f7 간단한 씬 이동을 위한 'SceneMovement' 스크립트 추가
+45224a1 First commit
+c53491b (origin/feature, origin/develop) Initial commit
+
+edc92c6로 가고 싶으면
+git reset --hard edc92c6 후
+git push -f origin main 로 푸시

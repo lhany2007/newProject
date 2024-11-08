@@ -212,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WallTile: {fileID: 11400000, guid: d8214750df1b7b24babc2a3ab5b478ca, type: 2}
   TreasureChestTile: {fileID: 11400000, guid: ea3ed06df19701e4bb6c144c0bf17dd6, type: 2}
+  TreasureChestTotal: 300
 --- !u!483693784 &132877458
 TilemapRenderer:
   m_ObjectHideFlags: 0

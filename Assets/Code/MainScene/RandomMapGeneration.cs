@@ -16,12 +16,13 @@ public class RandomMapGeneration : MonoBehaviour
 
     HashSet<Vector3Int> safeZoneBoundary; // 중앙 빈 구역의 좌표
 
-    int TreasureChestTotal = 100; // 맵 전체에 분포될 보물상자의 수
+    [SerializeField] int TreasureChestTotal = 100; // 맵 전체에 분포될 보물상자의 수
 
     const int MAP_WIDTH = 200;
     const int MAP_HEIGHT = 200;
     const int CELLULAR_ITERATIONS = 20; // 셀룰러 오토마타 스무딩 반복 횟수
     const int MIN_ROOM_SIZE = 10; // 방이 유효하다고 판단되는 최소 크기(TreasureChestTile 생성할 때 사용)
+    const int MIN_CHEST_SPACING = 3; // 보물상자 사이의 최소 타일 수
 
     readonly System.Random random = new System.Random();
 
@@ -208,9 +209,9 @@ public class RandomMapGeneration : MonoBehaviour
     /// </summary>
     void DistributeCollectibles()
     {
-        // 유효한 방을 모두 찾음 (중앙 빈 구역 및 작은 방 제외)
         var availableRooms = FindAvailableRooms()
             .Where(room => room.Count >= MIN_ROOM_SIZE && !IsSafeZoneOverlap(room))
+            .OrderByDescending(room => room.Count) // 방 크기에 따라 방을 정렬
             .ToList();
 
         if (availableRooms.Count == 0)
@@ -220,51 +221,58 @@ public class RandomMapGeneration : MonoBehaviour
         }
 
         int remainingCollectibles = TreasureChestTotal;
-        int attempts = 0;
-        const int maxAttempts = 1000; // 무한 루프 방지
 
-        int collectiblesPerRoom = Mathf.Max(1, TreasureChestTotal / availableRooms.Count);
-        // 모든 방에 고르게 보물 상자를 분배 시도
-        foreach (var room in availableRooms)
+        // 방 크기에 따라 상자 분포 계산
+        float totalRoomArea = availableRooms.Sum(room => room.Count);
+        var roomAllocations = availableRooms.Select(room =>
         {
-            // 이 방에서 보물 상자를 배치할 수 있는 모든 유효한 위치를 가져옴
+            float roomRatio = room.Count / totalRoomArea;
+            return Mathf.Max(1, Mathf.RoundToInt(TreasureChestTotal * roomRatio));
+        }).ToList();
+
+        // 방에 상자를 분배
+        for (int i = 0; i < availableRooms.Count && remainingCollectibles > 0; i++)
+        {
+            var room = availableRooms[i];
+            int chestsForThisRoom = Mathf.Min(roomAllocations[i], remainingCollectibles);
+
+            // 적절한 간격을 유지하는 유효한 위치 가져오기
             var validPositions = GetValidPositionsInRoom(room);
 
-            // 유효한 위치가 없으면 이 방을 건너뜀
-            if (validPositions.Count == 0)
+            // 할당된 상자를 배치하려고 시도
+            for (int j = 0; j < chestsForThisRoom && validPositions.Count > 0; j++)
             {
-                continue;
-            }
-
-            // 계산된 수만큼의 상자를 이 방에 배치 시도
-            for (int i = 0; i < collectiblesPerRoom && remainingCollectibles > 0; i++)
-            {
-                // 상자 배치를 시도하고 성공하면 남은 개수를 감소
                 if (PlaceCollectibleInRoom(validPositions))
                 {
                     remainingCollectibles--;
                 }
+
+                // 각 배치 후 유효한 위치 업데이트
+                validPositions = GetValidPositionsInRoom(room);
             }
         }
 
-        // 남은 상자를 배치할 때까지 계속 시도하거나 최대 시도 횟수에 도달할 때까지 반복
+        // 아직 남은 상자가 있으면 사용 가능한 공간에 배치 시도
+        int attempts = 0;
+        const int maxAttempts = 1000;
+
         while (remainingCollectibles > 0 && attempts < maxAttempts)
         {
-            // 남은 상자를 배치할 수 있도록 각 방을 다시 시도
+            bool placed = false;
             foreach (var room in availableRooms)
             {
-                // 모든 상자가 배치되면 중단
-                if (remainingCollectibles <= 0)
-                {
-                    break;
-                }
-
-                // 유효한 위치를 가져오고 위치가 있으면 상자를 배치 시도
                 var validPositions = GetValidPositionsInRoom(room);
                 if (validPositions.Count > 0 && PlaceCollectibleInRoom(validPositions))
                 {
                     remainingCollectibles--;
+                    placed = true;
+                    break;
                 }
+            }
+
+            if (!placed)
+            {
+                break;
             }
             attempts++;
         }
@@ -274,6 +282,7 @@ public class RandomMapGeneration : MonoBehaviour
             Debug.LogWarning($"총 {TreasureChestTotal} 개의 보물 상자 중 {TreasureChestTotal - remainingCollectibles} 개만 배치됨. 파라미터 조정 ㄱㄱ");
         }
     }
+
 
     /// <summary>
     /// 보물 상자를 배치할 수 있는 방의 유효한 위치 목록을 반환.
@@ -317,16 +326,24 @@ public class RandomMapGeneration : MonoBehaviour
     /// </summary>
     bool HasRequiredSpacing(Vector3Int position)
     {
-        Vector3Int checkPosition = new();
-        // 위치 주변의 3x3 영역을 확인
-        foreach (var direction in adjacentDirections)
+        // 위치 주변의 영역을 검사 (5x5)
+        for (int x = -MIN_CHEST_SPACING; x <= MIN_CHEST_SPACING; x++)
         {
-            checkPosition.x = position.x + direction.x;
-            checkPosition.y = position.y + direction.y;
-
-            if (!IsValidPosition(checkPosition) || TileMaps[checkPosition] == TreasureChestTile)
+            for (int y = -MIN_CHEST_SPACING; y <= MIN_CHEST_SPACING; y++)
             {
-                return false;
+                Vector3Int checkPosition = new(position.x + x, position.y + y, 0);
+
+                // 중심 위치 자체는 검사에서 건너뜀
+                if (x == 0 && y == 0)
+                {
+                    continue;
+                }
+
+                // 이 범위 내에 다른 상자가 있으면 간격이 충분하지 않음
+                if (IsValidPosition(checkPosition) && TileMaps[checkPosition] == TreasureChestTile)
+                {
+                    return false;
+                }
             }
         }
         return true;
