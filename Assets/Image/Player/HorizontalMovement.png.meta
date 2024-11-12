@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: c521cd66fa33e554babd63f8fce92bde
+guid: f227c30b20a22264e9207314fbd9426e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2311659948842064771
-    second: Player_0
+      213: 590444869773078567
+    second: HorizontalMovement_0
   - first:
-      213: 7364682651488144517
-    second: Player_1
+      213: 4016409155895307800
+    second: HorizontalMovement_1
   - first:
-      213: -6287787046888575383
-    second: Player_2
+      213: -3776908809111293259
+    second: HorizontalMovement_2
   - first:
-      213: -1182821291677670348
-    second: Player_3
+      213: 1357708406716913730
+    second: HorizontalMovement_3
   - first:
-      213: -4709456396536258026
-    second: Player_4
+      213: -6121370422303265194
+    second: HorizontalMovement_4
   - first:
-      213: -4529042392078601758
-    second: Player_5
+      213: 2218473742195382577
+    second: HorizontalMovement_5
   - first:
-      213: -7446026091647042388
-    second: Player_6
+      213: 6700761554499594250
+    second: HorizontalMovement_6
   - first:
-      213: 5938012242645255967
-    second: Player_7
+      213: -2918961600580463253
+    second: HorizontalMovement_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,32 +105,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -144,33 +118,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: VisionOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: tvOS
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -186,7 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_0
+      name: HorizontalMovement_0
       rect:
         serializedVersion: 2
         x: 1
@@ -201,14 +149,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7465c336855befd0800000000000000
-      internalID: -2311659948842064771
+      spriteID: 720b6421b7ea13800800000000000000
+      internalID: 590444869773078567
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_1
+      name: HorizontalMovement_1
       rect:
         serializedVersion: 2
         x: 16
@@ -223,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58cce6d0adb943660800000000000000
-      internalID: 7364682651488144517
+      spriteID: 81e24c1f8d62db730800000000000000
+      internalID: 4016409155895307800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_2
+      name: HorizontalMovement_2
       rect:
         serializedVersion: 2
         x: 31
@@ -245,14 +193,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96e67e6befa4db8a0800000000000000
-      internalID: -6287787046888575383
+      spriteID: 5b2b0e3f279b59bc0800000000000000
+      internalID: -3776908809111293259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_3
+      name: HorizontalMovement_3
       rect:
         serializedVersion: 2
         x: 48
@@ -267,14 +215,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 434a8c45d46c59fe0800000000000000
-      internalID: -1182821291677670348
+      spriteID: 2485cea3a9c87d210800000000000000
+      internalID: 1357708406716913730
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_4
+      name: HorizontalMovement_4
       rect:
         serializedVersion: 2
         x: 65
@@ -289,14 +237,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 612e34feb56a4aeb0800000000000000
-      internalID: -4709456396536258026
+      spriteID: 65ee70888068c0ba0800000000000000
+      internalID: -6121370422303265194
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_5
+      name: HorizontalMovement_5
       rect:
         serializedVersion: 2
         x: 81
@@ -311,14 +259,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2e13877b0fb9521c0800000000000000
-      internalID: -4529042392078601758
+      spriteID: 13956135d1a99ce10800000000000000
+      internalID: 2218473742195382577
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_6
+      name: HorizontalMovement_6
       rect:
         serializedVersion: 2
         x: 97
@@ -333,14 +281,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cac761b68b66aa890800000000000000
-      internalID: -7446026091647042388
+      spriteID: a08ea84b123edfc50800000000000000
+      internalID: 6700761554499594250
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_7
+      name: HorizontalMovement_7
       rect:
         serializedVersion: 2
         x: 113
@@ -355,8 +303,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f178aca7cae086250800000000000000
-      internalID: 5938012242645255967
+      spriteID: b65556cb3e3cd77d0800000000000000
+      internalID: -2918961600580463253
       vertices: []
       indices: 
       edges: []
@@ -375,14 +323,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Player_0: -2311659948842064771
-      Player_1: 7364682651488144517
-      Player_2: -6287787046888575383
-      Player_3: -1182821291677670348
-      Player_4: -4709456396536258026
-      Player_5: -4529042392078601758
-      Player_6: -7446026091647042388
-      Player_7: 5938012242645255967
+      HorizontalMovement_0: 590444869773078567
+      HorizontalMovement_1: 4016409155895307800
+      HorizontalMovement_2: -3776908809111293259
+      HorizontalMovement_3: 1357708406716913730
+      HorizontalMovement_4: -6121370422303265194
+      HorizontalMovement_5: 2218473742195382577
+      HorizontalMovement_6: 6700761554499594250
+      HorizontalMovement_7: -2918961600580463253
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
