@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            SwordAttackAnimation.Instance.Ani.SetTrigger(IS_MOUSE_CLICKED);
+            SwordAttack.Instance.Ani.SetTrigger(IS_MOUSE_CLICKED);
             // 여기에 공격 모션 추가
         }
     }

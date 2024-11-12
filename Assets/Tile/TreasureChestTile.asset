@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: TreasureChestTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -4930144082353617600, guid: da2eec6a08d63d044aaadac769f3fd2f, type: 3}
+  m_Sprite: {fileID: -628105558, guid: cb36a6ad6f1569f4eae8fd4b2428ec1a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

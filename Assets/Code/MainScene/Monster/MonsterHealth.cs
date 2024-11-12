@@ -1,27 +1,41 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MonsterHealth : MonoBehaviour
 {
-    public Slider slider;
-    public float maxHP = 100;
+    public float maxHP;
+    public float currentHP;
 
-    float currentHP; // 현재 체력
+    bool isDead = false;
+
+    MonsterSpawner spawner;
 
     void Start()
     {
+        spawner = MonsterSpawner.Instance;
         currentHP = maxHP;
     }
 
     public void TakeDamage(float damage)
     {
-        currentHP -= damage;
-        slider.value = currentHP; // 슬라이더 값 업데이트
+        if (isDead) return;
 
-        // 체력이 0 이하이면 몬스터 오브젝트를 삭제
-        if (currentHP <= 0)
+        currentHP = Mathf.Max(0, currentHP - damage);
+
+        if (currentHP <= 0 && !isDead)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    void Die()
+    {
+        isDead = true;
+
+        if (spawner != null)
+        {
+            spawner.OnMonsterDestroyed();
+        }
+
+        Destroy(gameObject); // 오브젝트 제거
     }
 }

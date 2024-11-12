@@ -10,12 +10,12 @@ public class ExpOrbSpawner : MonoBehaviour
     [SerializeField] List<GameObject> expOrbPrefabList;
 
     [Header("Spawn Settings")]
-    public float BaseSpawnRadius = 8f; // 기본 생성 반경
-    public float SpawnVariance = 2f; // 생성 위치 변동성 (랜덤 위치 오차)
-    public int SpawnBatchSize = 5; // 한 번에 생성할 오브 개수
-    public float RegenerationTime = 2f; // 새로운 오브 생성 대기 시간
-    public int InitialPoolSize = 20; // 초기 풀의 오브 개수
-    public int ExpandPoolSize = 5; // 풀을 확장할 때 추가할 오브 개수
+    public float BaseSpawnRadius = 10f; // 기본 생성 반경
+    public float SpawnVariance = 3f; // 생성 위치 변동성 (랜덤 위치 오차)
+    public int SpawnBatchSize = 3; // 한 번에 생성할 오브 개수
+    
+    public int InitialPoolSize = 10; // 초기 풀의 오브 개수
+    public int ExpandPoolSize = 3; // 풀을 확장할 때 추가할 오브 개수
 
     const string EXP_TAG = "Exp";
 
@@ -24,17 +24,13 @@ public class ExpOrbSpawner : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        Instance = this;
         InitializeObjectPools();
     }
 
     void Start()
     {
-        StartCoroutine(GenerateRandomSpawnLocations()); // 정기적인 오브 생성 시작
-        TimeManager.Instance.onTierChange.AddListener(OnTierChange); // Tier 변화에 따른 콜백 등록
+        TimeManager.Instance.OnTierChange.AddListener(OnTierChange); // Tier 변화에 따른 콜백 등록
     }
 
     void OnTierChange(int newTier)
@@ -100,7 +96,7 @@ public class ExpOrbSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator GenerateRandomSpawnLocations()
+    public IEnumerator GenerateRandomSpawnLocations(float regenerationTime)
     {
         while (true)
         {
@@ -124,7 +120,7 @@ public class ExpOrbSpawner : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(RegenerationTime);
+            yield return new WaitForSeconds(regenerationTime);
         }
     }
 

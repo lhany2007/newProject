@@ -6,6 +6,7 @@ TagManager:
   tags:
   - weapon
   - Exp
+  - Monster
   layers:
   - Default
   - TransparentFX

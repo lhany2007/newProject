@@ -6,52 +6,59 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
+    public Slider OxygeSlider;
+    public UnityEvent<int> OnTierChange; // 티어가 변경될 때 발생하는 이벤트
+
     [Header("Times")]
-    public float GameTime = 0f;
-    public float OxygeTime = 0f;
-    public float NextTierTime = 180f; // 다음 티어까지의 시간
+    public float NextExpTierTime = 180f; // 다음 경험치 티어까지의 시간
     public float PlayerDeathTime = 900f;
 
     public int CurrentTier = 0; // 현재 경험치 구슬의 티어
     public int DebuffIndex = 0;
 
-    public Slider OxygeSlider;
+    MonsterSpawner monsterSpawner;
 
-    public UnityEvent<int> onTierChange; // 티어가 변경될 때 발생하는 이벤트
+    float monsterSpawnTime = 5f; // 스폰 쿨타임
+    float regenerationTime = 3f; // 경험치 구슬 생성 쿨타임
+    float gameTime = 0f;
+    float oxygeTime = 0f;
+    float timeSinceLastSpawn = 0f;
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
-        if (onTierChange == null)
-        {
-            onTierChange = new UnityEvent<int>();
-        }
+        Instance = this;
+        OnTierChange = new UnityEvent<int>();
+        monsterSpawner = MonsterSpawner.Instance;
     }
 
     void Start()
     {
         OxygeSlider.maxValue = PlayerDeathTime;
         OxygeSlider.value = PlayerDeathTime;
+        StartCoroutine(ExpOrbSpawner.Instance.GenerateRandomSpawnLocations(regenerationTime));
         InvokeRepeating("UpdateOxygeSlider", 1f, 1f);
     }
 
     void Update()
     {
-        GameTime += Time.deltaTime;
-        OxygeTime += Time.deltaTime;
+        timeSinceLastSpawn += Time.deltaTime;
+        gameTime += Time.deltaTime;
+        oxygeTime += Time.deltaTime;
 
-        if (GameTime >= NextTierTime) // 티어 변경 조건
+        if (timeSinceLastSpawn >= monsterSpawnTime && monsterSpawner.MonstersSpawned < monsterSpawner.MaxMonsters)
         {
-            CurrentTier = Mathf.Min(CurrentTier + 1, 5); // 최대 5티어까지
-            GameTime = 0f;
-            onTierChange.Invoke(CurrentTier); // 티어 변경 이벤트 호출
+            monsterSpawner.SpawnMonster();
+            timeSinceLastSpawn = 0f;
         }
 
-        if (OxygeTime >= PlayerDeathTime)
+        if (gameTime >= NextExpTierTime) // 티어 변경 조건
+        {
+            CurrentTier = Mathf.Min(CurrentTier + 1, 5); // 최대 5티어까지
+            gameTime = 0f;
+            OnTierChange.Invoke(CurrentTier); // 티어 변경 이벤트 호출
+        }
+
+        if (oxygeTime >= PlayerDeathTime)
         {
             GameManager.Instance.GameOver();
         }
@@ -60,11 +67,11 @@ public class TimeManager : MonoBehaviour
     // 다음 티어까지 남은 시간을 반환하는 함수
     public float GetTimeUntilNextTier()
     {
-        return NextTierTime - GameTime;
+        return NextExpTierTime - gameTime;
     }
 
     void UpdateOxygeSlider()
     {
-        OxygeSlider.value = PlayerDeathTime - OxygeTime;
+        OxygeSlider.value = PlayerDeathTime - oxygeTime;
     }
 }

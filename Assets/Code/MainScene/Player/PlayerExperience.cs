@@ -16,7 +16,7 @@ public class PlayerExperience : MonoBehaviour
     public float ExpMaxValue = 30f;
     public int CurrentLevel = 1;
     public int LevelUpThreshold = 3; // 경험치의 최대값이 증가하는 주기
-    public List<float> ExpGrowthRate = new List<float> { 3, 6, 9, 12, 15, 18, 21 }; // 각 경험치 오브의 경험치 증가량 리스트
+    public List<float> ExpGrowthRate;
 
     const float START_EXP = 0f;
     const int EXP_MAX_VALUE_INCREASE = 2; // 일정 레벨 이후 경험치 최대값 증가량
@@ -26,14 +26,12 @@ public class PlayerExperience : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        Instance = this;
     }
 
     void Start()
     {
+        ExpGrowthRate = new List<float> { 3, 6, 9, 12, 15, 18, 21 }; // 각 경험치 오브의 경험치 증가량 리스트
         ExpSlider.maxValue = ExpMaxValue;
         ExpSlider.value = START_EXP;
         UpdateUI();
