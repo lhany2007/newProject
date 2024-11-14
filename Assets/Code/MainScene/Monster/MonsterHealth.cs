@@ -1,11 +1,8 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 
 public class MonsterHealth : MonoBehaviour
 {
-    public GameObject Player;
-
     public float maxHP;
     public float currentHP;
     public float invincibilityDuration = 0.01f; // 무적 시간
@@ -15,11 +12,15 @@ public class MonsterHealth : MonoBehaviour
     bool isInvincible = false; // 무적 상태 플래그
 
     MonsterSpawner spawner;
+    Rigidbody2D rb;
+    HitFlash hitFlash;
 
     void Start()
     {
         spawner = MonsterSpawner.Instance;
         currentHP = maxHP;
+        rb = GetComponent<Rigidbody2D>();
+        hitFlash = GetComponent<HitFlash>();
     }
 
     public void TakeDamage(float damage)
@@ -27,7 +28,7 @@ public class MonsterHealth : MonoBehaviour
         // 사망 상태이거나 무적 상태일 때 데미지 무효화
         if (isDead || isInvincible)
         {
-            return; 
+            return;
         }
 
         currentHP = Mathf.Max(0, currentHP - damage);
@@ -38,20 +39,18 @@ public class MonsterHealth : MonoBehaviour
         }
         else
         {
-            Vector3 knockbackDirection = (transform.position - Player.transform.position).normalized;
+            Vector3 knockbackDirection = (transform.position - PlayerMovement.Instance.transform.position).normalized;
             Knockback(knockbackDirection); // 넉백 적용
 
             StartCoroutine(InvincibilityDelay());
+
+            hitFlash.TriggerFlash(); // 히트 플래시 호출
         }
     }
 
     void Knockback(Vector3 direction)
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.AddForce(direction.normalized * knockbackForce, ForceMode.Impulse);
-        }
+        rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
     }
 
     IEnumerator InvincibilityDelay()

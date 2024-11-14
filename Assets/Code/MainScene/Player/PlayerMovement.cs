@@ -1,7 +1,9 @@
 using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
-    public float MoveSpeed;
+    public static PlayerMovement Instance;
+
+    public float MoveSpeed = 5f;
 
     Vector2 inputVector;
     Rigidbody2D rigid;
@@ -20,13 +22,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     void Start()
     {
-        MoveSpeed = 5f;
+        rigid = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
