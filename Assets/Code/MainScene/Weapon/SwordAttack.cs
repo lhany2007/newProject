@@ -10,7 +10,7 @@ public class SwordAttack : MonoBehaviour
 
     Dictionary<int, Vector2[]> colliderShapes;
 
-    const string MONSTER_TAG = "Monster";
+    const string MONSTER_LAYER = "Monster";
     private bool isAttacking = false;
 
     void Awake()
@@ -35,24 +35,9 @@ public class SwordAttack : MonoBehaviour
     {
         colliderShapes[0] = new Vector2[]
         {
-             new Vector2(-0.6094514f , 0.01571336f),
-             new Vector2(-0.6433504f, 0.003350556f),
-             new Vector2(-0.6518243f, -0.02694057f),
-             new Vector2(-0.747909f, 0.01453136f),
-             new Vector2(-0.7736799f, -0.08115555f),
-             new Vector2(-0.8388443f, -0.1554939f),
-             new Vector2(-0.8623222f, -0.1985957f),
-             new Vector2(-0.9418489f, -0.2851469f),
-             new Vector2(-0.9797805f, -0.3633506f),
-             new Vector2(-0.9096707f, -0.3707682f),
-             new Vector2(-0.8233883f, -0.3044553f),
-             new Vector2(-0.7618965f, -0.2466206f),
-             new Vector2(-0.7186829f, -0.2466206f),
-             new Vector2(-0.6240093f, -0.2093233f),
-             new Vector2(-0.6090122f, -0.12f),
-             new Vector2(-0.6708261f, -0.1002195f),
-             new Vector2(-0.6268284f,- 0.04990893f),
-             new Vector2(-0.5867591f, -0.01934158f)
+             new Vector2(-0.6131981f , -0.1019547f),
+             new Vector2(-0.6170515f, -0.1001165f),
+             new Vector2(-0.6246028f, -0.09046727f)
         };
         colliderShapes[1] = new Vector2[]
         {
@@ -156,8 +141,8 @@ public class SwordAttack : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag(MONSTER_TAG))
-        {
+        if (other.gameObject.layer == LayerMask.NameToLayer(MONSTER_LAYER))
+            {
             MonsterHealth monsterHealth = other.GetComponent<MonsterHealth>();
             if (monsterHealth != null)
             {

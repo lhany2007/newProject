@@ -1,40 +1,16 @@
 fileFormatVersion: 2
-guid: 8bd217807adbaf54eb9da268537830b0
+guid: 5173b9b513d6c514192741e59d44d081
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7061807241241527820
-    second: 32x34_0
+      213: -7008412969330441016
+    second: Attack_0
   - first:
-      213: 3783939696052766930
-    second: 32x34_1
+      213: -7763475090823894447
+    second: Attack_1
   - first:
-      213: -8884272319492504363
-    second: 32x34_2
-  - first:
-      213: -3017864618252369823
-    second: 32x34_3
-  - first:
-      213: -2059975879243881662
-    second: 32x34_4
-  - first:
-      213: 6546007679410117399
-    second: 32x34_5
-  - first:
-      213: 4690139318622286966
-    second: 32x34_6
-  - first:
-      213: 835459953270866488
-    second: 32x34_7
-  - first:
-      213: 7710855401899038383
-    second: 32x34_8
-  - first:
-      213: 7830297712187143461
-    second: 32x34_9
-  - first:
-      213: -3819474461071824867
-    second: 32x34_10
+      213: 302641331129538988
+    second: Attack_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -143,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 32x34_0
+      name: Attack_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 48
-        height: 34
+        x: 10
+        y: 3
+        width: 13
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c068b765544900260800000000000000
-      internalID: 7061807241241527820
+      spriteID: 8c481db598d1dbe90800000000000000
+      internalID: -7008412969330441016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 32x34_1
+      name: Attack_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 48
-        height: 34
+        x: 37
+        y: 3
+        width: 18
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,19 +156,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2d889bafa11438430800000000000000
-      internalID: 3783939696052766930
+      spriteID: 15a29dc9988924490800000000000000
+      internalID: -7763475090823894447
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 32x34_2
+      name: Attack_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 66
         y: 0
-        width: 48
+        width: 31
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -202,74 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d440d47569b4b480800000000000000
-      internalID: -8884272319492504363
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32x34_3
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 48
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 16009d87e146e16d0800000000000000
-      internalID: -3017864618252369823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32x34_4
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 48
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 243abcf1ade7963e0800000000000000
-      internalID: -2059975879243881662
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32x34_5
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 0
-        width: 48
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 71b183c5d4718da50800000000000000
-      internalID: 6546007679410117399
+      spriteID: ca9d35cefa2333400800000000000000
+      internalID: 302641331129538988
       vertices: []
       indices: 
       edges: []
@@ -278,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 75d998e95b1574f4d8f723df26826469
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -288,12 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      32x34_0: 7061807241241527820
-      32x34_1: 3783939696052766930
-      32x34_2: -8884272319492504363
-      32x34_3: -3017864618252369823
-      32x34_4: -2059975879243881662
-      32x34_5: 6546007679410117399
+      Attack_0: -7008412969330441016
+      Attack_1: -7763475090823894447
+      Attack_2: 302641331129538988
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
