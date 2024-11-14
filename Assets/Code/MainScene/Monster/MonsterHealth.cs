@@ -1,8 +1,11 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class MonsterHealth : MonoBehaviour
 {
+    public GameObject Player;
+
     public float maxHP;
     public float currentHP;
     public float invincibilityDuration = 0.01f; // 무적 시간
@@ -19,7 +22,7 @@ public class MonsterHealth : MonoBehaviour
         currentHP = maxHP;
     }
 
-    public void TakeDamage(float damage, Vector3 knockbackDirection)
+    public void TakeDamage(float damage)
     {
         // 사망 상태이거나 무적 상태일 때 데미지 무효화
         if (isDead || isInvincible)
@@ -35,8 +38,8 @@ public class MonsterHealth : MonoBehaviour
         }
         else
         {
-            // 넉백 적용
-            Knockback(knockbackDirection);
+            Vector3 knockbackDirection = (transform.position - Player.transform.position).normalized;
+            Knockback(knockbackDirection); // 넉백 적용
 
             StartCoroutine(InvincibilityDelay());
         }
