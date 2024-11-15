@@ -543,7 +543,7 @@ Transform:
   m_GameObject: {fileID: 247816050}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.462, y: 0.188, z: 0}
+  m_LocalPosition: {x: 0.4609, y: 0.1804, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1988,6 +1988,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rigid: {fileID: 0}
   MoveSpeed: 10
+  knockbackForce: 5
+  knockbackDuration: 0.5
 --- !u!95 &1832067202
 Animator:
   serializedVersion: 7
@@ -2050,7 +2052,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HPSlider: {fileID: 1891674949}
   invincibilityDuration: 0.01
-  knockbackForce: 5
   MAX_HP: 100
   currentHP: 100
 --- !u!1 &1873982040
