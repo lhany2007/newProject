@@ -1,17 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class SwordAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
-    public static SwordAttack Instance;
+    public static PlayerAttack Instance;
 
-    public Animator Ani;
     public PolygonCollider2D SwordCollider;
 
-    Dictionary<int, Vector2[]> colliderShapes;
-
     const string MONSTER_LAYER = "Monster";
-    private bool isAttacking = false;
+    
+    bool isAttacking = false;
+
+    Animator animator;
+    Dictionary<int, Vector2[]> colliderShapes;
 
     void Awake()
     {
@@ -20,7 +21,7 @@ public class SwordAttack : MonoBehaviour
 
     void Start()
     {
-        Ani = GetComponent<Animator>();
+        animator = PlayerAni.Instance.GetComponent<Animator>();
         SwordCollider = GetComponent<PolygonCollider2D>();
         colliderShapes = new Dictionary<int, Vector2[]>();
 
@@ -106,7 +107,7 @@ public class SwordAttack : MonoBehaviour
     void Update()
     {
         // 애니메이터의 현재 상태를 확인
-        if (Ani.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             isAttacking = true;
             int frameIndex = GetCurrentFrameIndex();
@@ -125,7 +126,7 @@ public class SwordAttack : MonoBehaviour
     // 현재 애니메이션 프레임 인덱스를 반환하는 함수
     int GetCurrentFrameIndex()
     {
-        float normalizedTime = Ani.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         int frameIndex = Mathf.Clamp(Mathf.FloorToInt(normalizedTime * 6), 0, 5);
         return frameIndex;
     }

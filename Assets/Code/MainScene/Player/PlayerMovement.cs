@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance;
@@ -7,20 +6,13 @@ public class PlayerMovement : MonoBehaviour
     public float MoveSpeed = 5f;
     public float knockbackForce = 5f; // 넉백 힘
     public float knockbackDuration = 0.5f; // 넉백 지속 시간
+    public float lastHorizontalDirection = 1f;
+    
+    public Vector2 InputVector;
 
-    private Vector2 inputVector;
-    private Animator animator;
-    private bool isKnockedBack = false;
-    private float knockbackEndTime;
-
-    const string IS_MOVING = "IsMoving";
-    const string IS_MOVING_X = "isMovingX";
-    const string IS_MOVING_Y = "isMovingY";
-    const string MOVE_X = "moveX";
-    const string MOVE_Y = "moveY";
-    const string IS_MOUSE_CLICKED = "isMouseClicked";
-
-    private float lastHorizontalDirection = 1f;
+    bool isKnockedBack = false;
+    // bool isInputLocked = false; // 입력 잠금 상태를 추적하는 변수
+    float knockbackEndTime;
 
     void Awake()
     {
@@ -33,58 +25,26 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         Rigid = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (!isKnockedBack)
+        /*
+        if (!isKnockedBack && !isInputLocked) // 입력 잠금 상태 체크
         {
             HandleInput();
         }
-
-        UpdateCharacterDirection();
-        UpdateAnimationStates();
-        HandleAttackInput();
+        */
+        HandleInput();
     }
 
     void HandleInput()
     {
-        inputVector.x = Input.GetAxisRaw("Horizontal");
-        inputVector.y = Input.GetAxisRaw("Vertical");
-        if (inputVector.magnitude > 1)
+        InputVector.x = Input.GetAxisRaw("Horizontal");
+        InputVector.y = Input.GetAxisRaw("Vertical");
+        if (InputVector.magnitude > 1)
         {
-            inputVector.Normalize();
-        }
-    }
-
-    void UpdateCharacterDirection()
-    {
-        if (inputVector.x != 0)
-        {
-            lastHorizontalDirection = Mathf.Sign(inputVector.x);
-        }
-        transform.localScale = new Vector3(lastHorizontalDirection, 1f, 1f);
-    }
-
-    void UpdateAnimationStates()
-    {
-        bool isMoving = inputVector.magnitude > 0;
-        bool isMovingHorizontally = inputVector.x != 0;
-
-        animator.SetBool(IS_MOVING, isMoving);
-        animator.SetFloat(MOVE_X, inputVector.x);
-        animator.SetFloat(MOVE_Y, inputVector.y);
-
-        animator.SetBool(IS_MOVING_X, isMovingHorizontally);
-        animator.SetBool(IS_MOVING_Y, inputVector.y != 0 && !isMovingHorizontally);
-    }
-
-    void HandleAttackInput()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SwordAttack.Instance.Ani.SetTrigger(IS_MOUSE_CLICKED);
+            InputVector.Normalize();
         }
     }
 
@@ -92,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
     {
         isKnockedBack = true;
         knockbackEndTime = Time.time + knockbackDuration;
-
         Rigid.linearVelocity = Vector2.zero;
         Rigid.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
     }
@@ -108,8 +67,23 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Vector2 nextPosition = Rigid.position + (inputVector * MoveSpeed * Time.fixedDeltaTime);
+            Vector2 nextPosition = Rigid.position + (InputVector * MoveSpeed * Time.fixedDeltaTime);
             Rigid.MovePosition(nextPosition);
         }
     }
+
+    /*
+    // 입력 잠금/해제
+    public void LockInput()
+    {
+        isInputLocked = true;
+        InputVector = Vector2.zero;
+        Rigid.linearVelocity = Vector2.zero;
+    }
+
+    public void UnlockInput()
+    {
+        isInputLocked = false;
+    }
+    */
 }
