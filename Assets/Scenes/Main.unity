@@ -525,8 +525,8 @@ GameObject:
   - component: {fileID: 247816054}
   - component: {fileID: 247816053}
   - component: {fileID: 247816055}
-  - component: {fileID: 247816058}
-  m_Layer: 0
+  - component: {fileID: 247816056}
+  m_Layer: 8
   m_Name: Sword
   m_TagString: weapon
   m_Icon: {fileID: 0}
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SwordCollider: {fileID: 0}
---- !u!60 &247816058
+--- !u!60 &247816056
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -675,18 +675,23 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.92, y: 1.36}
-    newSize: {x: 1.92, y: 1.92}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.6131981, y: -0.10195471}
-      - {x: -0.61705154, y: -0.10011646}
-      - {x: -0.6246028, y: -0.09046727}
+    - - {x: -0.31704932, y: -0.12899905}
+      - {x: -0.26872236, y: -0.07489097}
+      - {x: -0.38918185, y: -0.094067186}
+      - {x: -0.42899448, y: -0.17385411}
+      - {x: -0.41361073, y: -0.1799618}
+      - {x: -0.45656884, y: -0.14942503}
+      - {x: -0.44513124, y: -0.13603806}
+      - {x: -0.35591316, y: -0.063530445}
   m_UseDelaunayMesh: 0
 --- !u!1 &323589052
 GameObject:
@@ -1807,7 +1812,7 @@ GameObject:
   - component: {fileID: 1832067202}
   - component: {fileID: 1832067203}
   - component: {fileID: 1832067205}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1879,7 +1884,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.52, y: 0.68}
+    oldSize: {x: 0.68, y: 0.64}
     newSize: {x: 0.52, y: 0.68}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1931,7 +1936,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 590444869773078567, guid: f227c30b20a22264e9207314fbd9426e, type: 3}
+  m_Sprite: {fileID: 3783939696052766930, guid: 8bd217807adbaf54eb9da268537830b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1975,8 +1980,8 @@ MonoBehaviour:
   MoveSpeed: 10
   knockbackForce: 5
   knockbackDuration: 0.5
-  InputVector: {x: 0, y: 0}
   lastHorizontalDirection: 1
+  InputVector: {x: 0, y: 0}
 --- !u!95 &1832067202
 Animator:
   serializedVersion: 7
@@ -2053,6 +2058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8cdd81f919d734e9bb5b5cccbb2265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAttacking: 0
 --- !u!1 &1873982040
 GameObject:
   m_ObjectHideFlags: 0
