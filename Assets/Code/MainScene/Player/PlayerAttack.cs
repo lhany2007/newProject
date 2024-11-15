@@ -13,7 +13,6 @@ public class PlayerAttack : MonoBehaviour
 
     Animator animator;
     Dictionary<int, Vector2[]> colliderShapes;
-    PlayerSwordCollider playerSwordCollider;
 
     void Awake()
     {
@@ -24,13 +23,11 @@ public class PlayerAttack : MonoBehaviour
     {
         animator = PlayerAni.Instance.GetComponent<Animator>();
         SwordCollider = GetComponent<PolygonCollider2D>();
-        colliderShapes = new Dictionary<int, Vector2[]>();
-
-        playerSwordCollider = new PlayerSwordCollider();
-        colliderShapes = playerSwordCollider.ColliderShapes;
+        colliderShapes = PlayerSwordCollider.Instance.ColliderShapes;
 
         UpdateColliderShape(0); // 기본 콜라이더 모양 설정
     }
+
 
     void Update()
     {
@@ -60,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // 콜라이더 모양 업데이트 함수
-    private void UpdateColliderShape(int shapeIndex)
+    void UpdateColliderShape(int shapeIndex)
     {
         if (colliderShapes.ContainsKey(shapeIndex))
         {

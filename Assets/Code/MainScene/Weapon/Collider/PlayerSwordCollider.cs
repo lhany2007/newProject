@@ -1,11 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSwordCollider
+public class PlayerSwordCollider : MonoBehaviour
 {
+    public static PlayerSwordCollider Instance;
+
     public Dictionary<int, Vector2[]> ColliderShapes;
 
-    public PlayerSwordCollider()
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start()
     {
         ColliderShapes = new Dictionary<int, Vector2[]>(); // 딕셔너리 초기화
         InitializeColliderShapes(); // 콜라이더 데이터 초기화

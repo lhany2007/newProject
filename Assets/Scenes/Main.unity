@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 247816053}
   - component: {fileID: 247816055}
   - component: {fileID: 247816056}
+  - component: {fileID: 247816057}
   m_Layer: 8
   m_Name: Sword
   m_TagString: weapon
@@ -693,6 +694,18 @@ PolygonCollider2D:
       - {x: -0.44513124, y: -0.13603806}
       - {x: -0.35591316, y: -0.063530445}
   m_UseDelaunayMesh: 0
+--- !u!114 &247816057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247816050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90996da38c4b6c44b8c2a3d734c4e147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &323589052
 GameObject:
   m_ObjectHideFlags: 0

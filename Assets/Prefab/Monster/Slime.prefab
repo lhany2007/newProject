@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -7806823573408384140}
   - component: {fileID: 6410926765832400187}
   - component: {fileID: 3726461158858209499}
+  - component: {fileID: -5313757958793109889}
   m_Layer: 6
   m_Name: Slime
   m_TagString: Monster
@@ -148,7 +149,7 @@ Animator:
   m_GameObject: {fileID: 6903735661974652481}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e701f4b04f9d8b44b4cdf25192c70c5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -217,3 +218,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+--- !u!114 &-5313757958793109889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6903735661974652481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32a15a6749606b3488c79d62e8e32e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  moveDistance: 2
+  waitTime: 1
