@@ -4,17 +4,27 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public static PlayerHealth Instance;
+
     public Slider HPSlider;
 
     public float invincibilityDuration = 0.01f; // 무적 시간
 
-    public int MAX_HP = 100;
+    public int MAX_HP = 1000;
     public float currentHP;
 
     const string MONSTER_LAYER = "Monster";
 
     bool isInvincible = false; // 무적 상태 플래그
     bool isDead = false;
+
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
@@ -27,11 +37,11 @@ public class PlayerHealth : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer(MONSTER_LAYER))
         {
-            TakeDamage(10, collision);
+            TakeDamage(10f, collision);
         }
     }
 
-    public void TakeDamage(int damage, Collision2D collision)
+    public void TakeDamage(float damage, Collision2D collision)
     {
         if (isDead || isInvincible)
         {
@@ -44,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
         {
             // Die();
         }
-        else
+        else if (collision != null)
         {
             Vector3 knockbackDirection = (transform.position - collision.transform.position).normalized;
             PlayerMovement.Instance.ApplyKnockback(knockbackDirection);

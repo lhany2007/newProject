@@ -10,7 +10,6 @@ public class PlayerExperience : MonoBehaviour
     [Header("UI References")]
     public Slider ExpSlider;
     public TextMeshProUGUI LevelText;
-    public TextMeshProUGUI CurrentExpText;
 
     [Header("Experience Settings")]
     public float ExpMaxValue = 30f;
@@ -79,11 +78,6 @@ public class PlayerExperience : MonoBehaviour
         if (LevelText != null)
         {
             LevelText.text = $"{CurrentLevel}"; // 레벨 텍스트 업데이트
-        }
-            
-        if (CurrentExpText != null)
-        {
-            CurrentExpText.text = $"{ExpSlider.value:F1} / {ExpMaxValue}"; // 현재 경험치 텍스트 업데이트
         }
     }
 

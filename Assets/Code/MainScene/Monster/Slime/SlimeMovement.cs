@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class SlimeMovement : MonoBehaviour
 {
-    public float speed = 2f;
-    public float moveDistance = 2f;
-    public float waitTime = 1f;
+    float speed = 3f;
+    float moveDistance = 2f;
+    float waitTime = 0.5f;
 
     Transform player;
     Animator animator;
@@ -17,7 +17,7 @@ public class SlimeMovement : MonoBehaviour
 
     void Start()
     {
-        // Player 태그를 가진 객체를 찾아서 Transform에 할당
+        // Player 태그를 가진 객체를 찾아서 Transform에 할당 (몬스터가 프리펩이라 인스펙터에서 할당이 안됨)
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
@@ -28,10 +28,9 @@ public class SlimeMovement : MonoBehaviour
             Debug.LogError("Player 태그를 가진 객체를 찾을 수 없습니다.");
         }
 
-        // 이동 루틴 시작
         if (player != null)
         {
-            StartCoroutine(MoveRoutine());
+            StartCoroutine(MoveRoutine()); // 이동 시작
         }
     }
 
@@ -39,8 +38,7 @@ public class SlimeMovement : MonoBehaviour
     {
         while (player != null)
         {
-            // 이동 애니메이션 재생
-            animator.Play("SlimeMove");
+            animator.Play("SlimeMove"); // 이동 애니메이션 재생
 
             Vector2 startPosition = transform.position;
             Vector2 targetPosition = Vector2.MoveTowards(startPosition, player.position, moveDistance);

@@ -68,7 +68,7 @@ public class PlayerAttack : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer(MONSTER_LAYER))
-            {
+           {
             MonsterHealth monsterHealth = other.GetComponent<MonsterHealth>();
             if (monsterHealth != null)
             {
