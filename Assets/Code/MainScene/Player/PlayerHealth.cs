@@ -37,7 +37,9 @@ public class PlayerHealth : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer(MONSTER_LAYER))
         {
-            TakeDamage(10f, collision);
+            int damage = MonsterSpawner.Instance.MonsterDamageDictionary[collision.gameObject.name];
+            Debug.Log($"{damage}의 피해를 입었대요~");
+            TakeDamage(damage, collision);
         }
     }
 

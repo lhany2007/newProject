@@ -16,6 +16,7 @@ public class TimeManager : MonoBehaviour
 
     public int CurrentTier = 0; // 현재 경험치 구슬의 티어
     public int DebuffIndex = 0;
+    public int MonsterTier = 0;
 
     Collision2D collision2D = null;
 
@@ -23,7 +24,8 @@ public class TimeManager : MonoBehaviour
     float regenerationTime = 3f; // 경험치 구슬 생성 쿨타임
     float gameTime = 0f;
     float timeSinceLastSpawn = 0f;
-
+    float NextMonsterTime = 0f;
+    
     void Awake()
     {
         Instance = this;
@@ -39,11 +41,19 @@ public class TimeManager : MonoBehaviour
     {
         timeSinceLastSpawn += Time.deltaTime;
         gameTime += Time.deltaTime;
+        NextMonsterTime += Time.deltaTime;
 
-        if (timeSinceLastSpawn >= monsterSpawnTime && monsterSpawner.MonstersSpawned < monsterSpawner.MaxMonsters)
+        if (timeSinceLastSpawn >= monsterSpawnTime &&
+            monsterSpawner.MonstersSpawned < monsterSpawner.MaxMonsters)
         {
             monsterSpawner.SpawnMonster();
             timeSinceLastSpawn = 0f;
+        }
+
+        if (NextMonsterTime >= 120f)
+        {
+            NextMonsterTime = 0f;
+            MonsterTier++;
         }
 
         if (gameTime >= NextExpTierTime) // 티어 변경 조건

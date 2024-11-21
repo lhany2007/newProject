@@ -48,7 +48,7 @@ public class MonsterHealth : MonoBehaviour
         }
     }
 
-    void Knockback(Vector3 direction)
+    public void Knockback(Vector3 direction)
     {
         rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
     }
@@ -68,6 +68,13 @@ public class MonsterHealth : MonoBehaviour
         {
             spawner.OnMonsterDestroyed();
         }
+
+        // 경험치 스폰 로직 추가
+        int currentTier = TimeManager.Instance.CurrentTier;
+        int maxTier = ExpOrbSpawner.Instance.ExpOrbPrefabList.Count - 1;
+        int spawnTier = Mathf.Clamp(currentTier + 1, 0, maxTier); // 현재 티어 +1 (최대 티어 제한)
+
+        ExpOrbSpawner.Instance.SpawnExpOrb(transform.position, spawnTier); // 현재 위치에 경험치 스폰
 
         Destroy(gameObject); // 오브젝트 제거
     }

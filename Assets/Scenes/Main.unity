@@ -462,10 +462,8 @@ GameObject:
   m_Component:
   - component: {fileID: 247816051}
   - component: {fileID: 247816054}
-  - component: {fileID: 247816055}
   - component: {fileID: 247816056}
   - component: {fileID: 247816057}
-  - component: {fileID: 247816058}
   m_Layer: 8
   m_Name: Sword
   m_TagString: weapon
@@ -532,30 +530,17 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 712035800519618848, guid: 94009592cb8abdb45a1bd929cfff6767, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.92, y: 1.92}
+  m_Size: {x: 0.44, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &247816055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247816050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d966134c9ddb64f9c520b6ca3511e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SwordCollider: {fileID: 0}
 --- !u!60 &247816056
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -593,10 +578,10 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.92, y: 1.92}
+    newSize: {x: 0.44, y: 0.64}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -620,19 +605,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 247816050}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90996da38c4b6c44b8c2a3d734c4e147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &247816058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247816050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90996da38c4b6c44b8c2a3d734c4e147, type: 3}
+  m_Script: {fileID: 11500000, guid: 39d966134c9ddb64f9c520b6ca3511e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &355792905
@@ -829,11 +802,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8d00bd349f2cf4384bca568b0b0ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterPrefab: {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
+  MonsterPrefabList:
+  - {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
+  - {fileID: 7449623235598624920, guid: 1ccfd2fb506bdba4fa95609aa4f36f30, type: 3}
   Player: {fileID: 1832067200}
   SpawnRadius: 15
-  MaxMonsters: 20
   MonsterMaxHP: 100
+  MaxMonsters: 100
   MonstersSpawned: 0
 --- !u!114 &601337333
 MonoBehaviour:
@@ -848,7 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1832067200}
-  expOrbPrefabList:
+  ExpOrbPrefabList:
   - {fileID: 6395461350646411805, guid: c94a572bcbc48a741afd5236e4a5ac23, type: 3}
   - {fileID: 7072802103239604800, guid: aab617eba94c69741ac5826ac590cd89, type: 3}
   - {fileID: 9037393826774437910, guid: fb11bc0e991801446887d2c16e1f8d46, type: 3}
@@ -856,7 +831,7 @@ MonoBehaviour:
   - {fileID: 2753861864678978194, guid: b2f9d4beaf7c9304581410e0ccb8b33a, type: 3}
   BaseSpawnRadius: 8
   SpawnVariance: 2
-  SpawnBatchSize: 5
+  SpawnBatchSize: 3
   InitialPoolSize: 20
   ExpandPoolSize: 5
 --- !u!4 &601337334
@@ -1208,7 +1183,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1458,6 +1433,7 @@ MonoBehaviour:
   PlayerDeathTime: 900
   CurrentTier: 0
   DebuffIndex: 0
+  MonsterTier: 0
 --- !u!114 &881019157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1489,7 +1465,6 @@ GameObject:
   - component: {fileID: 940679145}
   - component: {fileID: 940679147}
   - component: {fileID: 940679146}
-  - component: {fileID: 940679148}
   m_Layer: 5
   m_Name: LevelText
   m_TagString: Untagged
@@ -1615,18 +1590,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940679144}
   m_CullTransparentMesh: 1
---- !u!114 &940679148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940679144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb22904fbf4a434d92076d15c864f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1114798773
 GameObject:
   m_ObjectHideFlags: 0
@@ -2078,7 +2041,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.056518555, y: -0.017700195}
+  m_AnchoredPosition: {x: -0.056396484, y: -0.017700195}
   m_SizeDelta: {x: 0.11304, y: 0.03552}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1687074508
@@ -2246,10 +2209,10 @@ GameObject:
   - component: {fileID: 1832067198}
   - component: {fileID: 1832067197}
   - component: {fileID: 1832067201}
-  - component: {fileID: 1832067202}
   - component: {fileID: 1832067203}
   - component: {fileID: 1832067205}
   - component: {fileID: 1832067206}
+  - component: {fileID: 1832067207}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2420,28 +2383,6 @@ MonoBehaviour:
   knockbackDuration: 0.5
   lastHorizontalDirection: 1
   InputVector: {x: 0, y: 0}
---- !u!95 &1832067202
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832067196}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c36dc8198f8a04e41a6b5221685c0933, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1832067203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2496,6 +2437,28 @@ MonoBehaviour:
   invincibilityDuration: 0.01
   MAX_HP: 1000
   currentHP: 0
+--- !u!95 &1832067207
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832067196}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c36dc8198f8a04e41a6b5221685c0933, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1931039464
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,7 +2549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0025634766, y: -40.85254}
+  m_AnchoredPosition: {x: -0.0024414062, y: -40.85254}
   m_SizeDelta: {x: 0, y: 81.695984}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1971355967

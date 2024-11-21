@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         /*
-        if (!isKnockedBack && !isInputLocked) // 입력 잠금 상태 체크
+        if (!isKnockBack && !isInputLocked) // 입력 잠금 상태 체크
         {
             HandleInput();
         }

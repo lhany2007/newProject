@@ -1,14 +1,22 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class SlimeMovement : MonoBehaviour
 {
     float speed = 3f;
-    float moveDistance = 2f;
-    float waitTime = 0.5f;
+    float moveDistance = 3f;
+    float waitTime = 1f;
+    float moveDuration = 1f; // 이동시간
+
+    float clipLength;
+
+    const string IS_MOVING = "IsMoving";
+    const string TARGET_CLIP_NAME = "SlimeMove";
 
     Transform player;
     Animator animator;
+
+    bool isMoving;
 
     void Awake()
     {
@@ -17,7 +25,9 @@ public class SlimeMovement : MonoBehaviour
 
     void Start()
     {
-        // Player 태그를 가진 객체를 찾아서 Transform에 할당 (몬스터가 프리펩이라 인스펙터에서 할당이 안됨)
+        isMoving = false;
+
+        // Player 태그를 가진 객체를 찾아 Transform에 할당
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
@@ -34,25 +44,32 @@ public class SlimeMovement : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        animator.SetBool(IS_MOVING, isMoving);
+    }
+
     IEnumerator MoveRoutine()
     {
         while (player != null)
         {
-            animator.Play("SlimeMove"); // 이동 애니메이션 재생
+            isMoving = true;
 
+            // 이동 시작
             Vector2 startPosition = transform.position;
             Vector2 targetPosition = Vector2.MoveTowards(startPosition, player.position, moveDistance);
 
             float elapsedTime = 0f;
-            while (elapsedTime < 1f)
+            while (elapsedTime < moveDuration)
             {
                 transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            // Idle 애니메이션 재생 및 대기
-            animator.Play("Slime-idle");
+            // 이동 후 정지
+            isMoving = false;
+            animator.speed = 1f; // 애니메이션 속도 초기화
             yield return new WaitForSeconds(waitTime);
         }
     }

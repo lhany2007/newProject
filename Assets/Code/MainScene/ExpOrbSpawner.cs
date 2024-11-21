@@ -7,7 +7,7 @@ public class ExpOrbSpawner : MonoBehaviour
     public static ExpOrbSpawner Instance;
 
     [SerializeField] Transform player;
-    [SerializeField] List<GameObject> expOrbPrefabList;
+    public List<GameObject> ExpOrbPrefabList;
 
     [Header("Spawn Settings")]
     public float BaseSpawnRadius = 10f; // 기본 생성 반경
@@ -76,7 +76,7 @@ public class ExpOrbSpawner : MonoBehaviour
         string[] nameParts = orbName.Split('_');
         if (nameParts.Length >= 2 && int.TryParse(nameParts[1], out int type))
         {
-            return Mathf.Clamp(type, 0, expOrbPrefabList.Count - 1);
+            return Mathf.Clamp(type, 0, ExpOrbPrefabList.Count - 1);
         }
         return -1;
     }
@@ -88,7 +88,7 @@ public class ExpOrbSpawner : MonoBehaviour
         poolContainer = new GameObject("ExpOrbPoolContainer").transform;
         poolContainer.SetParent(transform);
 
-        for (int i = 0; i < expOrbPrefabList.Count; i++)
+        for (int i = 0; i < ExpOrbPrefabList.Count; i++)
         {
             var pool = new Queue<GameObject>();
             CreateNewPoolObjects(i, InitialPoolSize, pool);
@@ -107,7 +107,7 @@ public class ExpOrbSpawner : MonoBehaviour
                 spawnPos += new Vector2(Random.Range(-SpawnVariance, SpawnVariance),
                                       Random.Range(-SpawnVariance, SpawnVariance));
 
-                int orbType = Mathf.Min(TimeManager.Instance.CurrentTier, expOrbPrefabList.Count - 1);
+                int orbType = Mathf.Min(TimeManager.Instance.CurrentTier, ExpOrbPrefabList.Count - 1);
 
                 if (expOrbPools[orbType].Count > 0)
                 {
@@ -127,16 +127,16 @@ public class ExpOrbSpawner : MonoBehaviour
     void ExpandPool(int orbType)
     {
         // 풀을 확장하고 새 오브를 풀에 추가
-        var newObj = Instantiate(expOrbPrefabList[orbType], poolContainer);
+        var newObj = Instantiate(ExpOrbPrefabList[orbType], poolContainer);
         newObj.name = $"ExpOrb_{orbType}";
         newObj.SetActive(false);
         expOrbPools[orbType].Enqueue(newObj);
     }
 
-    void SpawnExpOrb(Vector3 position, int orbType)
+    public void SpawnExpOrb(Vector3 position, int orbType)
     {
         // 오브를 활성화하고 지정된 위치에 배치
-        int clampedType = Mathf.Clamp(orbType, 0, expOrbPrefabList.Count - 1);
+        int clampedType = Mathf.Clamp(orbType, 0, ExpOrbPrefabList.Count - 1);
 
         var pool = expOrbPools[clampedType];
 
@@ -153,7 +153,7 @@ public class ExpOrbSpawner : MonoBehaviour
         // 오브 풀에 새 오브를 생성하고 추가
         for (int j = 0; j < count; j++)
         {
-            var newObj = Instantiate(expOrbPrefabList[orbType], poolContainer);
+            var newObj = Instantiate(ExpOrbPrefabList[orbType], poolContainer);
             newObj.name = $"ExpOrb_{orbType}";
             newObj.SetActive(false);
             pool.Enqueue(newObj);
@@ -163,7 +163,7 @@ public class ExpOrbSpawner : MonoBehaviour
     public void CollectExpOrb(GameObject orb, int orbType)
     {
         // 오브를 수집하여 비활성화하고 풀로 반환
-        int clampedType = Mathf.Clamp(orbType, 0, expOrbPrefabList.Count - 1);
+        int clampedType = Mathf.Clamp(orbType, 0, ExpOrbPrefabList.Count - 1);
 
         orb.SetActive(false);
         expOrbPools[clampedType].Enqueue(orb);
@@ -175,7 +175,7 @@ public class ExpOrbSpawner : MonoBehaviour
         for (int i = 0; i < numOrbs; i++)
         {
             Vector2 spawnPos = Random.insideUnitCircle * BaseSpawnRadius + (Vector2)player.position;
-            int orbType = Mathf.Min(TimeManager.Instance.CurrentTier, expOrbPrefabList.Count - 1);
+            int orbType = Mathf.Min(TimeManager.Instance.CurrentTier, ExpOrbPrefabList.Count - 1);
             SpawnExpOrb(spawnPos, orbType);
         }
     }
