@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -17,4 +18,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         // ShowGameOverUI(); // 게임 오버 UI 표시 함수
     }
+}
+public static class Tags
+{
+    public const string EXP_TAG = "Exp";
+
+    public const string MONSTER_LAYER = "Monster";
 }

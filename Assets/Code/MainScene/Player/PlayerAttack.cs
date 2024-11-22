@@ -20,10 +20,10 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        animator = PlayerAni.Instance.GetComponent<Animator>();
+        animator = PlayerAnimation.Instance.GetComponent<Animator>();
         SwordCollider = GetComponent<PolygonCollider2D>();
 
-        colliderShapes = new Dictionary<int, Vector2[]>(); // 여기서 초기화
+        colliderShapes = new Dictionary<int, Vector2[]>();
 
         InitializeColliderShapes();
         UpdateColliderShape(0); // 기본 콜라이더 모양 설정

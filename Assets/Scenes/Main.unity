@@ -232,7 +232,7 @@ Transform:
   m_GameObject: {fileID: 94164899}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -100, y: -100, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -285,8 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bcb111693251904ebb1ae112eb54be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallTile: {fileID: 11400000, guid: d8214750df1b7b24babc2a3ab5b478ca, type: 2}
-  TreasureChestTile: {fileID: 11400000, guid: ea3ed06df19701e4bb6c144c0bf17dd6, type: 2}
+  wallTile: {fileID: 11400000, guid: d8214750df1b7b24babc2a3ab5b478ca, type: 2}
 --- !u!483693784 &132877458
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -834,6 +833,7 @@ MonoBehaviour:
   SpawnBatchSize: 3
   InitialPoolSize: 20
   ExpandPoolSize: 5
+  XPIncrease: []
 --- !u!4 &601337334
 Transform:
   m_ObjectHideFlags: 0
@@ -1397,9 +1397,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f89e6af489f85419cb3e5bd28c2ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SliderList:
-  - {fileID: 1931039465}
+  XPSlider: {fileID: 0}
+  sliderList:
   - {fileID: 1673583505}
+  - {fileID: 1931039465}
+  sliderNameList:
+  - XP
+  - HP
+  TextList:
+  - {fileID: 940679146}
+  TextNameList:
+  - Level
 --- !u!114 &881019155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,7 +1436,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   monsterSpawner: {fileID: 601337332}
-  playerHealth: {fileID: 1832067206}
   NextExpTierTime: 180
   PlayerDeathTime: 900
   CurrentTier: 0
@@ -1452,8 +1459,6 @@ MonoBehaviour:
   TargetEXPButtonRectTransform: {fileID: 2004595249}
   HPButton: {fileID: 1998381567}
   HPTextFixedPosition: {x: 152, y: 982, z: 0}
-  playerHealth: {fileID: 1832067206}
-  playerExperience: {fileID: 1832067203}
 --- !u!1 &940679144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,10 +2214,9 @@ GameObject:
   - component: {fileID: 1832067198}
   - component: {fileID: 1832067197}
   - component: {fileID: 1832067201}
-  - component: {fileID: 1832067203}
   - component: {fileID: 1832067205}
-  - component: {fileID: 1832067206}
   - component: {fileID: 1832067207}
+  - component: {fileID: 1832067208}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2377,37 +2381,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668d281975aca9b4f8f6864ad032d83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rigid: {fileID: 0}
-  MoveSpeed: 10
+  speed: 5
   knockbackForce: 5
   knockbackDuration: 0.5
-  lastHorizontalDirection: 1
+  LastHorizontalDirection: 1
   InputVector: {x: 0, y: 0}
---- !u!114 &1832067203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832067196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f932c3e2cf3a264d86721673ce3acc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ExpSlider: {fileID: 1673583505}
-  LevelText: {fileID: 940679146}
-  ExpMaxValue: 30
-  CurrentLevel: 1
-  LevelUpThreshold: 3
-  ExpGrowthRate:
-  - 3
-  - 6
-  - 9
-  - 12
-  - 15
-  - 18
-  - 21
 --- !u!114 &1832067205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2421,22 +2399,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsAttacking: 0
---- !u!114 &1832067206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832067196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f74b587efa367c14aa78f9264af7658d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPSlider: {fileID: 1931039465}
-  invincibilityDuration: 0.01
-  MAX_HP: 1000
-  currentHP: 0
 --- !u!95 &1832067207
 Animator:
   serializedVersion: 7
@@ -2459,6 +2421,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1832067208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832067196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2152b3cb7eaa85048af710084d1a2453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invincibilityDuration: 0.01
+  MaxHP: 1000
+  currentHP: 0
+  CurrentLevel: 1
+  CurrentXP: 0
+  XpSliderMaxValue: 30
 --- !u!1 &1931039464
 GameObject:
   m_ObjectHideFlags: 0

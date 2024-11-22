@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using static UIManager;
 
 public class MouseHoverHandler : MonoBehaviour
 {
@@ -15,16 +16,20 @@ public class MouseHoverHandler : MonoBehaviour
 
     public Vector3 HPTextFixedPosition = new Vector3(152.00f, 982.00f, 0);
 
-    [SerializeField] PlayerHealth playerHealth;
-    [SerializeField] PlayerExperience playerExperience;
+    private PlayerStats playerStats;
 
     Vector2 HPLocalMousePos;
     Vector2 EXPLocalMousePos;
 
     bool isHPButtonClickedl = false;
 
+    UIManager uiManager;
+    SliderManager sliderManager;
+
     void Start()
     {
+        uiManager = UIManager.Instance;
+
         if (PlayerCurrentEXP != null)
         {
             PlayerCurrentEXP.gameObject.SetActive(false);
@@ -33,11 +38,11 @@ public class MouseHoverHandler : MonoBehaviour
         {
             PlayerCurrentHP.gameObject.SetActive(false);
         }
-
-        HPButton.onClick.AddListener(OnCilck);
+        playerStats = PlayerStats.Instance;
+        HPButton.onClick.AddListener(OnClick);
     }
 
-    void OnCilck()
+    void OnClick()
     {
         isHPButtonClickedl = !isHPButtonClickedl;
 
@@ -65,8 +70,8 @@ public class MouseHoverHandler : MonoBehaviour
         {
             PlayerCurrentHP.gameObject.SetActive(true);
             PlayerCurrentHP.transform.position = Input.mousePosition + new Vector3(0, 10, 0);
-            PlayerCurrentHP.text = $"{playerHealth.currentHP:F2}";
-            // 혹은 PlayerCurrentHP.text = System.Math.Truncate(playerHealth.currentHP).ToString();
+            PlayerCurrentHP.text = $"{playerStats.currentHP:F2}";
+            // 혹은 PlayerCurrentHP.text = System.Math.Truncate(playerStats.currentHP).ToString();
         }
         else if (!EventSystem.current.IsPointerOverGameObject() &&
             !TargetHPButtonRectTransform.rect.Contains(HPLocalMousePos) &&
@@ -80,8 +85,10 @@ public class MouseHoverHandler : MonoBehaviour
         {
             PlayerCurrentEXP.gameObject.SetActive(true);
             PlayerCurrentEXP.transform.position = Input.mousePosition + new Vector3(0, 10, 0);
+
+            Slider xpSlider = uiManager.sliderManager.SliderDictionary["XP"];
             // 현재 경험치 퍼센트
-            PlayerCurrentEXP.text = playerExperience.ExpSlider.value > 0 ? $"{(playerExperience.ExpSlider.value / playerExperience.ExpMaxValue) * 100:F2}%" : "0%";
+            PlayerCurrentEXP.text = GetExperiencePercentage(xpSlider);
         }
         else
         {
@@ -90,7 +97,11 @@ public class MouseHoverHandler : MonoBehaviour
 
         if (isHPButtonClickedl)
         {
-            PlayerCurrentHP.text = $"{playerHealth.currentHP:F2}";
+            PlayerCurrentHP.text = $"{playerStats.currentHP:F2}";
         }
+    }
+    private string GetExperiencePercentage(Slider xpSlider)
+    {
+        return xpSlider.value > 0 ? $"{(xpSlider.value / PlayerStats.Instance.XpSliderMaxValue) * 100:F2}%" : "0%";
     }
 }

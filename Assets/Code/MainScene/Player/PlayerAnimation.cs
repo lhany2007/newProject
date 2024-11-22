@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerAni : MonoBehaviour
+public class PlayerAnimation : MonoBehaviour
 {
-    public static PlayerAni Instance;
+    public static PlayerAnimation Instance;
 
     const string IS_MOVING = "IsMoving";
     const string IS_MOVING_X = "isMovingX";
@@ -19,16 +19,17 @@ public class PlayerAni : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
+        if (Instance != null)
         {
-            Instance = this;
+            Debug.LogError("Player Instance가 이미 할당됨");
         }
+        Instance = this;
     }
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        player = PlayerMovement.Instance;
+        player = GetComponent<PlayerMovement>(); // ||  player = PlayerMovement.Instance;
     }
 
     void Update()
@@ -54,7 +55,7 @@ public class PlayerAni : MonoBehaviour
         // 현재 애니메이션 상태 정보 가져오기
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        // 애니메이션이 실제로 시작될 때까지 대기
+        // 애니메이션이 시작될 때까지 대기
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             yield return null;
@@ -90,10 +91,6 @@ public class PlayerAni : MonoBehaviour
     /// </summary>
     void UpdateCharacterDirection()
     {
-        if (player.InputVector.x != 0)
-        {
-            player.lastHorizontalDirection = Mathf.Sign(player.InputVector.x);
-        }
-        transform.localScale = new Vector3(player.lastHorizontalDirection, 1f, 1f);
+        transform.localScale = new Vector3(Mathf.Sign(player.InputVector.x), 1f, 1f);
     }
 }

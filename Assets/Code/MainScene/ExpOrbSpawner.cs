@@ -9,13 +9,14 @@ public class ExpOrbSpawner : MonoBehaviour
     [SerializeField] Transform player;
     public List<GameObject> ExpOrbPrefabList;
 
-    [Header("Spawn Settings")]
     public float BaseSpawnRadius = 10f; // 기본 생성 반경
     public float SpawnVariance = 3f; // 생성 위치 변동성 (랜덤 위치 오차)
     public int SpawnBatchSize = 3; // 한 번에 생성할 오브 개수
     
     public int InitialPoolSize = 10; // 초기 풀의 오브 개수
     public int ExpandPoolSize = 3; // 풀을 확장할 때 추가할 오브 개수
+
+    public List<float> XPIncrease;
 
     const string EXP_TAG = "Exp";
 
@@ -31,6 +32,7 @@ public class ExpOrbSpawner : MonoBehaviour
     void Start()
     {
         TimeManager.Instance.OnTierChange.AddListener(OnTierChange); // Tier 변화에 따른 콜백 등록
+        XPIncrease = new List<float> { 3, 6, 9, 12, 15 }; // 경험치 오브의 티어 별 경험치 증가량 리스트(임시)
     }
 
     void OnTierChange(int newTier)

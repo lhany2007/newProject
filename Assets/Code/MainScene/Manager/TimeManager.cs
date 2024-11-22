@@ -8,7 +8,8 @@ public class TimeManager : MonoBehaviour
 
     public UnityEvent<int> OnTierChange; // 티어가 변경될 때 발생하는 이벤트
     public MonsterSpawner monsterSpawner;
-    public PlayerHealth playerHealth;
+
+    private PlayerStats playerStats;
 
     [Header("Times")]
     public float NextExpTierTime = 180f; // 다음 경험치 티어까지의 시간
@@ -35,6 +36,7 @@ public class TimeManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(ExpOrbSpawner.Instance.GenerateRandomSpawnLocations(regenerationTime));
+        playerStats = PlayerStats.Instance;
     }
 
     void Update()
@@ -63,7 +65,7 @@ public class TimeManager : MonoBehaviour
             OnTierChange.Invoke(CurrentTier); // 티어 변경 이벤트 호출
         }
 
-        playerHealth.TakeDamage(0.001f, collision2D); // 산소가 줄어듦
+        playerStats.TakeDamage(0.001f, collision2D); // 산소가 줄어듦
     }
 
     // 다음 티어까지 남은 시간을 반환하는 함수
