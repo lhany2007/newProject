@@ -3,66 +3,55 @@ using System.Collections;
 
 public class BatMovement : MonoBehaviour
 {
-    [SerializeField] float speed = 2f;
+    private Transform player;
+    private Animator animator;
+    private MonsterHealth monsterHealth;
+    private Rigidbody2D rb;
 
-    Transform player;
-    Animator animator;
-    MonsterHealth monsterHealth;
-    Rigidbody2D rb;
+    private const string IS_ANGERING = "IsAngering";
+    private const string IS_DASHED = "IsDashed";
 
-    const string IS_ANGERING = "IsAngering";
-    const string IS_DASHED = "IsDashed";
+    private bool isAttacking = false;
+    private bool isAngering = false;
+    private bool isDashing = false;
+    private bool isKnockBack = false;
 
-    bool isAttacking = false;
-    bool isAngering = false;
-    bool isDashing = false;
-    bool isKnockBack = false;
-
+    private float speed;
     public float DetectionRange = 2f;
-    float batSpeedIndex;
-    float animatorSpeedIndex;
+    private float batSpeedIndex;
+    private float animatorSpeedIndex;
 
-    void Awake()
+    void Start()
     {
+        speed = MonsterManager.Instance.monsterStats.stats.Speed(MonsterManager.Instance.GetMonsterNameIndex("Bat"));
         animator = GetComponent<Animator>();
         monsterHealth = GetComponent<MonsterHealth>();
         rb = GetComponent<Rigidbody2D>();
-
         batSpeedIndex = speed;
         animatorSpeedIndex = animator.speed;
-    }
-    void Start()
-    {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            player = playerObject.transform;
-        }
-        else
-        {
-            Debug.LogError("Player 태그를 가진 객체를 찾을 수 없습니다.");
-        }
+        player = MonsterManager.Instance.monsterMovement.TargetPlayer;
     }
     void Update()
     {
-        if (player == null) return;
-
         if (!isAttacking && !isKnockBack)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+            Move();
         }
         if (Vector3.Distance(player.position, transform.position) < DetectionRange && !isAttacking && !isKnockBack)
         {
             StartCoroutine(AttackCoroutine());
         }
-        UpdateCharacterDirection();
+        DirectionUpdate();
     }
-    void UpdateCharacterDirection()
+
+    void DirectionUpdate()
     {
-        if (player == null) return;
-        Vector2 direction = (player.position - transform.position).normalized;
-        float scaleX = direction.x > 0 ? 1f : -1f;
-        transform.localScale = new Vector3(scaleX, 1f, 1f);
+        transform.localScale = MonsterManager.Instance.monsterMovement.UpdateDirection(transform);
+    }
+
+    void Move()
+    {
+        transform.position = MonsterManager.Instance.monsterMovement.MoveToPlayer(speed, transform);
     }
 
     IEnumerator AttackCoroutine()
@@ -128,7 +117,7 @@ public class BatMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && (isDashing || isAngering))
+        if (collision.gameObject.CompareTag(Tags.PLAYER) && (isDashing || isAngering))
         {
             StopAllCoroutines(); // 모든 코루틴 중지
 

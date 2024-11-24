@@ -14,12 +14,14 @@ public class MonsterHealth : MonoBehaviour
     MonsterSpawner spawner;
     Rigidbody2D rb;
     HitFlash hitFlash;
+    Animator animator;
 
     void Start()
     {
         spawner = MonsterSpawner.Instance;
         currentHP = maxHP;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         hitFlash = GetComponent<HitFlash>();
     }
 

@@ -1,17 +1,15 @@
 using UnityEngine;
 using System.Collections;
-using static UIManager;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
 
-    private UIManager uiManager;
     private SliderManager sliderManager;
     private TextManager textManager;
 
     // HP
-    public float invincibilityDuration = 0.01f;
+    private float invincibilityDuration = 0.01f; // 무적시간
     public int MaxHP = 1000;
     public float currentHP;
     public const float START_HP_Value = 1000f;
@@ -44,9 +42,8 @@ public class PlayerStats : MonoBehaviour
 
     private void InitializeReferences()
     {
-        uiManager = UIManager.Instance;
-        sliderManager = uiManager.sliderManager;
-        textManager = uiManager.textManager;
+        sliderManager = UIManager.Instance.sliderManager;
+        textManager = UIManager.Instance.textManager;
     }
 
     private void InitializeStats()
@@ -63,7 +60,7 @@ public class PlayerStats : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer(Tags.MONSTER_LAYER))
         {
-            int damage = MonsterSpawner.Instance.MonsterDamageDictionary[collision.gameObject.name];
+            float damage = MonsterManager.Instance.monsterStats.stats.Damage(MonsterManager.Instance.GetMonsterNameIndex(collision.gameObject.tag));
             TakeDamage(damage, collision);
         }
     }
@@ -82,10 +79,10 @@ public class PlayerStats : MonoBehaviour
         {
             // Die();
         }
-        else if (collision != null)
+        // collision == null이면 TimeManager로부터 받는 데미지(넉백 X)
+        if (collision != null)
         {
-            Vector3 knockbackDirection = (transform.position - collision.transform.position).normalized;
-            PlayerMovement.Instance.ApplyKnockback(knockbackDirection);
+            PlayerMovement.Instance.ApplyKnockback(transform.position, collision.transform.position);
             StartCoroutine(InvincibilityDelay());
         }
     }

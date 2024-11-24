@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2433927699687219040}
   m_Layer: 6
   m_Name: Bat
-  m_TagString: Monster
+  m_TagString: Bat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,6 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  DetectionRange: 2
 --- !u!95 &7063188167088638554
 Animator:
   serializedVersion: 7

@@ -7,6 +7,8 @@ TagManager:
   - weapon
   - Exp
   - Monster
+  - Slime
+  - Bat
   layers:
   - Default
   - TransparentFX

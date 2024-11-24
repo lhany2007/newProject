@@ -1,3 +1,4 @@
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -5,11 +6,10 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement Instance;
 
     Rigidbody2D rb;
+    Animator animator;
 
     [SerializeField] float speed = 5f;
-    [SerializeField] float knockbackForce = 5f; // ³Ë¹é Èû
     [SerializeField] float knockbackDuration = 0.5f; // ³Ë¹é Áö¼Ó ½Ã°£
-    public float LastHorizontalDirection = 1f;
     
     public Vector2 InputVector;
 
@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -53,12 +54,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void ApplyKnockback(Vector3 direction)
+    public void ApplyKnockback(Vector3 pos, Vector3 targetVec)
     {
         isKnockedBack = true;
         knockbackEndTime = Time.time + knockbackDuration;
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
+        animator.SetBool(PlayerAnimation.Instance.IS_KNOCKEDBACK, isKnockedBack);
+        GameManager.Instance.Knockback(rb, 5f, pos, targetVec, animator);
     }
 
     void FixedUpdate()
@@ -68,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
             if (Time.time >= knockbackEndTime)
             {
                 isKnockedBack = false;
+                animator.SetBool(PlayerAnimation.Instance.IS_KNOCKEDBACK, isKnockedBack);
             }
         }
         else

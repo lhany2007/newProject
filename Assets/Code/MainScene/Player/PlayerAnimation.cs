@@ -5,14 +5,18 @@ public class PlayerAnimation : MonoBehaviour
 {
     public static PlayerAnimation Instance;
 
-    const string IS_MOVING = "IsMoving";
-    const string IS_MOVING_X = "isMovingX";
-    const string IS_MOVING_Y = "isMovingY";
-    const string MOVE_X = "moveX";
-    const string MOVE_Y = "moveY";
-    const string IS_MOUSE_CLICKED = "isMouseClicked";
+    private const string IS_MOVING = "IsMoving";
+    private const string IS_MOVING_X = "isMovingX";
+    private const string IS_MOVING_Y = "isMovingY";
+    private const string MOVE_X = "moveX";
+    private const string MOVE_Y = "moveY";
+    private const string IS_MOUSE_CLICKED = "isMouseClicked";
+    public readonly string IS_KNOCKEDBACK = "isKnockedBack";
 
     public bool IsAttacking = false;
+
+
+    private float lastHorizontalDirection = 1f;
 
     Animator animator;
     PlayerMovement player;
@@ -36,7 +40,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         UpdateAnimationStates();
         HandleAttackInput();
-        UpdateCharacterDirection();
+        UpdatePlayerDirection();
     }
 
     void HandleAttackInput()
@@ -89,8 +93,15 @@ public class PlayerAnimation : MonoBehaviour
     /// <summary>
     /// 좌우 반전
     /// </summary>
-    void UpdateCharacterDirection()
+    void UpdatePlayerDirection()
     {
-        transform.localScale = new Vector3(Mathf.Sign(player.InputVector.x), 1f, 1f);
+        // 수평 입력이 있을 때만 마지막 방향 업데이트
+        if (PlayerMovement.Instance.InputVector.x != 0)
+        {
+            lastHorizontalDirection = Mathf.Sign(PlayerMovement.Instance.InputVector.x);
+        }
+
+        // 스프라이트 방향 설정
+        transform.localScale = new Vector3(lastHorizontalDirection, 1f, 1f);
     }
 }

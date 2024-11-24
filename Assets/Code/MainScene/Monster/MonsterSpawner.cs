@@ -9,6 +9,7 @@ public class MonsterSpawner : MonoBehaviour
     [Header("Spawn Settings")]
     public List<GameObject> MonsterPrefabList;
     public Transform Player;
+
     public float SpawnRadius = 15f; // 스폰 반경
     public float MonsterMaxHP = 100f;
     public int MaxMonsters = 100;

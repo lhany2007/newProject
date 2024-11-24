@@ -1351,6 +1351,8 @@ GameObject:
   - component: {fileID: 881019155}
   - component: {fileID: 881019156}
   - component: {fileID: 881019157}
+  - component: {fileID: 881019159}
+  - component: {fileID: 881019158}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1397,17 +1399,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f89e6af489f85419cb3e5bd28c2ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XPSlider: {fileID: 0}
   sliderList:
   - {fileID: 1673583505}
   - {fileID: 1931039465}
-  sliderNameList:
-  - XP
-  - HP
   TextList:
   - {fileID: 940679146}
-  TextNameList:
-  - Level
+  - {fileID: 717220141}
+  - {fileID: 646324429}
 --- !u!114 &881019155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1453,12 +1451,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d58348a6ab0db3448ef339db974ba12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCurrentHP: {fileID: 717220141}
-  PlayerCurrentEXP: {fileID: 646324429}
   TargetHPButtonRectTransform: {fileID: 355792906}
-  TargetEXPButtonRectTransform: {fileID: 2004595249}
+  TargetXPButtonRectTransform: {fileID: 2004595249}
   HPButton: {fileID: 1998381567}
   HPTextFixedPosition: {x: 152, y: 982, z: 0}
+--- !u!114 &881019158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881019148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115abeb0c94f49a4ea8be06020519562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &881019159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881019148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46dd38fb0404543449ae4e1d7ac70ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterCount: 0
+  monsterPrefabList:
+  - {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
+  - {fileID: 7449623235598624920, guid: 1ccfd2fb506bdba4fa95609aa4f36f30, type: 3}
+  playerTransform: {fileID: 1832067200}
 --- !u!1 &940679144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1932,7 +1957,7 @@ GameObject:
   - component: {fileID: 1673583504}
   - component: {fileID: 1673583505}
   m_Layer: 5
-  m_Name: ExpSlider
+  m_Name: XpSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2450,7 +2475,7 @@ GameObject:
   - component: {fileID: 1931039466}
   - component: {fileID: 1931039465}
   m_Layer: 5
-  m_Name: HP&&OxygenSlider
+  m_Name: HPSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2739,7 +2764,7 @@ GameObject:
   - component: {fileID: 2004595251}
   - component: {fileID: 2004595250}
   m_Layer: 5
-  m_Name: EXPHoverButton
+  m_Name: XPHoverButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
