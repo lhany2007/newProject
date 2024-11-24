@@ -11,14 +11,12 @@ public class MonsterHealth : MonoBehaviour
     bool isDead = false;
     bool isInvincible = false; // 무적 상태 플래그
 
-    MonsterSpawner spawner;
     Rigidbody2D rb;
     HitFlash hitFlash;
     Animator animator;
 
     void Start()
     {
-        spawner = MonsterSpawner.Instance;
         currentHP = maxHP;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -66,15 +64,11 @@ public class MonsterHealth : MonoBehaviour
     {
         isDead = true;
 
-        if (spawner != null)
-        {
-            spawner.OnMonsterDestroyed();
-        }
+        MonsterSpawner.Instance.OnMonsterDestroyed();
 
         // 경험치 스폰 로직 추가
-        int currentTier = TimeManager.Instance.CurrentTier;
         int maxTier = ExpOrbSpawner.Instance.ExpOrbPrefabList.Count - 1;
-        int spawnTier = Mathf.Clamp(currentTier + 1, 0, maxTier); // 현재 티어 +1 (최대 티어 제한)
+        int spawnTier = Mathf.Clamp(ExpOrbSpawner.Instance.CurrentTier + 1, 0, maxTier); // 현재 티어 +1 (최대 티어 제한)
 
         ExpOrbSpawner.Instance.SpawnExpOrb(transform.position, spawnTier); // 현재 위치에 경험치 스폰
 

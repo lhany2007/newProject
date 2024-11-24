@@ -5,9 +5,6 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance;
 
-    private SliderManager sliderManager;
-    private TextManager textManager;
-
     // HP
     private float invincibilityDuration = 0.01f; // 무적시간
     public int MaxHP = 1000;
@@ -36,14 +33,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        InitializeReferences();
         InitializeStats();
-    }
-
-    private void InitializeReferences()
-    {
-        sliderManager = UIManager.Instance.sliderManager;
-        textManager = UIManager.Instance.textManager;
     }
 
     private void InitializeStats()
@@ -73,7 +63,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         currentHP -= damage;
-        sliderManager.SliderDictionary["HP"].value = currentHP;
+        UIManager.Instance.sliderManager.SliderDictionary["HP"].value = currentHP;
 
         if (currentHP <= 0 && !isDead)
         {
@@ -134,11 +124,11 @@ public class PlayerStats : MonoBehaviour
     private void UpdateXPUI()
     {
         float xpRatio = CurrentXP / XpSliderMaxValue;
-        sliderManager.SliderDictionary["XP"].value = xpRatio;
+        UIManager.Instance.sliderManager.SliderDictionary["XP"].value = xpRatio;
     }
 
     private void UpdateLevelText()
     {
-        textManager.TextUpdate("Level", CurrentLevel.ToString());
+        UIManager.Instance.textManager.TextUpdate("Level", CurrentLevel.ToString());
     }
 }

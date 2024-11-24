@@ -138,7 +138,7 @@ public class MonsterStats
         {
             if (index < 0 || index >= stats.Length)
             {
-                throw new IndexOutOfRangeException("인덱스가 범위 초과");
+                throw new IndexOutOfRangeException("인덱스 범위 초과");
             }
             return stats[index].Item1; // Max HP
         }
@@ -147,7 +147,7 @@ public class MonsterStats
         {
             if (index < 0 || index >= stats.Length)
             {
-                throw new IndexOutOfRangeException("인덱스가 범위 초과");
+                throw new IndexOutOfRangeException("인덱스 범위 초과");
             }
             return stats[index].Item2; // Speed
         }
@@ -156,7 +156,7 @@ public class MonsterStats
         {
             if (index < 0 || index >= stats.Length)
             {
-                throw new IndexOutOfRangeException("인덱스가 범위 초과");
+                throw new IndexOutOfRangeException("인덱스 범위 초과");
             }
             return stats[index].Item3; // Damage
         }

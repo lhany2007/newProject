@@ -16,6 +16,8 @@ public class ExpOrbSpawner : MonoBehaviour
     public int InitialPoolSize = 10; // 초기 풀의 오브 개수
     public int ExpandPoolSize = 3; // 풀을 확장할 때 추가할 오브 개수
 
+    public int CurrentTier = 0; // 현재 경험치 구슬의 티어
+
     public List<float> XPIncrease;
 
     const string EXP_TAG = "Exp";
@@ -31,11 +33,10 @@ public class ExpOrbSpawner : MonoBehaviour
 
     void Start()
     {
-        TimeManager.Instance.OnTierChange.AddListener(OnTierChange); // Tier 변화에 따른 콜백 등록
         XPIncrease = new List<float> { 3, 6, 9, 12, 15 }; // 경험치 오브의 티어 별 경험치 증가량 리스트(임시)
     }
 
-    void OnTierChange(int newTier)
+    public void OnTierChange(int newTier)
     {
         // 티어 변경 시 모든 기존 오브를 새로운 티어 오브로 교체
         ReplaceAllOrbsWithNewTier(newTier);
@@ -109,7 +110,7 @@ public class ExpOrbSpawner : MonoBehaviour
                 spawnPos += new Vector2(Random.Range(-SpawnVariance, SpawnVariance),
                                       Random.Range(-SpawnVariance, SpawnVariance));
 
-                int orbType = Mathf.Min(TimeManager.Instance.CurrentTier, ExpOrbPrefabList.Count - 1);
+                int orbType = Mathf.Min(CurrentTier, ExpOrbPrefabList.Count - 1);
 
                 if (expOrbPools[orbType].Count > 0)
                 {
@@ -177,7 +178,7 @@ public class ExpOrbSpawner : MonoBehaviour
         for (int i = 0; i < numOrbs; i++)
         {
             Vector2 spawnPos = Random.insideUnitCircle * BaseSpawnRadius + (Vector2)player.position;
-            int orbType = Mathf.Min(TimeManager.Instance.CurrentTier, ExpOrbPrefabList.Count - 1);
+            int orbType = Mathf.Min(CurrentTier, ExpOrbPrefabList.Count - 1);
             SpawnExpOrb(spawnPos, orbType);
         }
     }

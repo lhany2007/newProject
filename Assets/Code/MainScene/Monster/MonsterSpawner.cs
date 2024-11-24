@@ -15,6 +15,8 @@ public class MonsterSpawner : MonoBehaviour
     public int MaxMonsters = 100;
     public int MonstersSpawned = 0; // 현재 게임에 생성되어 있는 몬스터의 수를 추적
 
+    public int MonsterTier = 0;
+
     readonly System.Random random = new();
     
     Transform spawnParent;
@@ -50,15 +52,14 @@ public class MonsterSpawner : MonoBehaviour
         Vector3 randomOffset = Random.insideUnitCircle * SpawnRadius;
         Vector3 spawnPosition = Player.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
 
-        int monsterTier = TimeManager.Instance.MonsterTier;
-        if (monsterTier != MonsterPrefabList.Count)
+        if (MonsterTier != MonsterPrefabList.Count)
         {
             int chance = random.Next(0, 10); // 0부터 9까지의 숫자를 생성
-            monsterTier += (chance < 7) ? 0 : 1; // 30% 확률로 monsterTier++
+            MonsterTier += (chance < 7) ? 0 : 1; // 30% 확률로 MonsterTier++
         }
 
-        GameObject monster = Instantiate(MonsterPrefabList[monsterTier], spawnPosition, Quaternion.identity, spawnParent);
-        monster.name = MonsterPrefabList[monsterTier].name;
+        GameObject monster = Instantiate(MonsterPrefabList[MonsterTier], spawnPosition, Quaternion.identity, spawnParent);
+        monster.name = MonsterPrefabList[MonsterTier].name;
 
         // 새로 생성된 몬스터에서 직접 MonsterHealth 컴포넌트를 가져옴
         MonsterHealth monsterHealth = monster.GetComponent<MonsterHealth>();
