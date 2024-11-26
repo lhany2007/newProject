@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 7839406891102425313}
   - component: {fileID: 4134445367198452464}
   - component: {fileID: 5384455161022366494}
-  - component: {fileID: 6961721947131895760}
   - component: {fileID: 7063188167088638554}
   - component: {fileID: 4148890078429192630}
   - component: {fileID: 2433927699687219040}
+  - component: {fileID: 1933192573798503898}
   m_Layer: 6
   m_Name: Bat
   m_TagString: Bat
@@ -198,20 +198,6 @@ PolygonCollider2D:
       - {x: 0.6105763, y: 0.45300388}
       - {x: 0.53748935, y: 0.4569664}
   m_UseDelaunayMesh: 0
---- !u!114 &6961721947131895760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7449623235598624920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 692245675964a874d9aeba56b7b4d8a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  DetectionRange: 2
 --- !u!95 &7063188167088638554
 Animator:
   serializedVersion: 7
@@ -264,3 +250,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashColor: {r: 1, g: 1, b: 1, a: 0}
   flashDuration: 0.1
+--- !u!114 &1933192573798503898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7449623235598624920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3938cbc7da6a43b700242ba2b98bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

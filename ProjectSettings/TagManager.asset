@@ -5,10 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - weapon
-  - Exp
   - Monster
   - Slime
   - Bat
+  - XP
   layers:
   - Default
   - TransparentFX

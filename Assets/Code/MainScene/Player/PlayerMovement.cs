@@ -1,4 +1,3 @@
-using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,11 +9,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float speed = 5f;
     [SerializeField] float knockbackDuration = 0.5f; // 넉백 지속 시간
-    
+    [SerializeField] private float knockbackForce = 5f; // 넉백
+
     public Vector2 InputVector;
 
     bool isKnockedBack = false;
-    // bool isInputLocked = false; // 입력 잠금 상태
     float knockbackEndTime;
 
     void Awake()
@@ -34,12 +33,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        /*
-        if (!isKnockBack && !isInputLocked) // 입력 잠금 상태 체크
-        {
-            HandleInput();
-        }
-        */
         HandleInput();
     }
 
@@ -56,10 +49,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void ApplyKnockback(Vector3 pos, Vector3 targetVec)
     {
+        if (isKnockedBack) return;
         isKnockedBack = true;
         knockbackEndTime = Time.time + knockbackDuration;
         animator.SetBool(PlayerAnimation.Instance.IS_KNOCKEDBACK, isKnockedBack);
-        GameManager.Instance.Knockback(rb, 5f, pos, targetVec, animator);
+        AnimationManager.Instance.StopAnimation(animator);
+        KnockbackManager.Instance.ApplyKnockback(rb, knockbackForce, pos, targetVec);
+        AnimationManager.Instance.StartAnimation(animator);
     }
 
     void FixedUpdate()
@@ -78,19 +74,4 @@ public class PlayerMovement : MonoBehaviour
             rb.MovePosition(nextPosition);
         }
     }
-
-    /*
-    // 입력 잠금/해제
-    public void LockInput()
-    {
-        isInputLocked = true;
-        InputVector = Vector2.zero;
-        rb.linearVelocity = Vector2.zero;
-    }
-
-    public void UnlockInput()
-    {
-        isInputLocked = false;
-    }
-    */
 }

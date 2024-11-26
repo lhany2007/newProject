@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9817e23632a66df47b11d9cd8885c461, type: 3}
+  m_Name: MonsterData
+  m_EditorClassIdentifier: 
+  monsters:
+  - name: Slime
+    prefab: {fileID: 6903735661974652481, guid: bec2a16e2df12e44ca485bcdb20d7849, type: 3}
+    tier: 0
+    maxHP: 100
+    speed: 3
+    damage: 30
+  - name: Bat
+    prefab: {fileID: 7449623235598624920, guid: 1ccfd2fb506bdba4fa95609aa4f36f30, type: 3}
+    tier: 1
+    maxHP: 150
+    speed: 3
+    damage: 50

@@ -59,7 +59,7 @@ public class MouseHoverHandler : MonoBehaviour
 
     private void Update()
     {
-        // HP와 EXP 각각에 대해 로컬 좌표로 변환
+        // HP와 XP 각각에 대해 로컬 좌표로 변환
         RectTransformUtility.ScreenPointToLocalPointInRectangle(TargetHPButtonRectTransform, Input.mousePosition, null, out HPLocalMousePos);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(TargetXPButtonRectTransform, Input.mousePosition, null, out XPLocalMousePos);
 

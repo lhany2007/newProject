@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,79 +6,110 @@ public class MonsterHealth : MonoBehaviour
 {
     public float maxHP;
     public float currentHP;
-    public float invincibilityDuration = 0.01f; // 무적 시간
-    public float knockbackForce = 5f; // 넉백 힘
 
-    bool isDead = false;
-    bool isInvincible = false; // 무적 상태 플래그
+    [Header("Combat Settings")]
+    [SerializeField] private float invincibilityDuration = 0.01f; // 무적시간
+    [SerializeField] private float knockbackForce = 5f; // 넉백
 
-    MonsterSpawner spawner;
-    Rigidbody2D rb;
-    HitFlash hitFlash;
-    Animator animator;
+    private bool isDead;
+    private bool isInvincible;
 
-    void Start()
+    private MonsterSpawner spawner;
+    private Rigidbody2D rb;
+    private HitFlash hitFlash;
+    private Animator animator;
+
+    private void Awake()
+    {
+        GetComponents();
+    }
+
+    private void GetComponents()
     {
         spawner = MonsterSpawner.Instance;
-        currentHP = maxHP;
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         hitFlash = GetComponent<HitFlash>();
+        animator = GetComponent<Animator>();
+    }
+
+    public void Initialize(float maxHealth)
+    {
+        maxHP = maxHealth;
+        currentHP = maxHealth;
+        isDead = false;
+        isInvincible = false;
     }
 
     public void TakeDamage(float damage)
     {
-        // 사망 상태이거나 무적 상태일 때 데미지 무효화
-        if (isDead || isInvincible)
-        {
-            return;
-        }
+        if (isDead || isInvincible) return;
 
+        ApplyDamage(damage);
+        HandleDamageEffects();
+    }
+
+    private void ApplyDamage(float damage)
+    {
         currentHP = Mathf.Max(0, currentHP - damage);
 
         if (currentHP <= 0 && !isDead)
         {
             Die();
+            return;
         }
-        else
+    }
+
+    private void HandleDamageEffects()
+    {
+        if (isDead)
         {
-            Vector3 knockbackDirection = (transform.position - PlayerMovement.Instance.transform.position).normalized;
-            Knockback(knockbackDirection); // 넉백 적용
-
-            StartCoroutine(InvincibilityDelay());
-
-            hitFlash.TriggerFlash(); // 히트 플래시 호출
+            return;
         }
+
+        ApplyKnockback();
+        StartCoroutine(InvincibilityDelay());
+        hitFlash?.TriggerFlash();
     }
 
-    public void Knockback(Vector3 direction)
+    private void ApplyKnockback()
     {
-        rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
+        if (rb == null)
+        {
+            throw new NullReferenceException("Rigidbody2D is null");
+        }
+        AnimationManager.Instance.StopAnimation(animator);
+        KnockbackManager.Instance.ApplyKnockback(rb, knockbackForce, transform.position, PlayerMovement.Instance.transform.position);
+        AnimationManager.Instance.StartAnimation(animator);
     }
 
-    IEnumerator InvincibilityDelay()
+    /// <summary>
+    /// 무적시간
+    /// </summary>
+    private IEnumerator InvincibilityDelay()
     {
-        isInvincible = true; // 무적 상태 시작
-        yield return new WaitForSeconds(invincibilityDuration); // 지정된 시간 동안 대기
-        isInvincible = false; // 무적 상태 종료
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibilityDuration);
+        isInvincible = false;
     }
 
-    void Die()
+    private void Die()
     {
         isDead = true;
+        spawner?.OnMonsterDestroyed();
+        SpawnExpOrb();
+        Destroy(gameObject);
+    }
 
-        if (spawner != null)
-        {
-            spawner.OnMonsterDestroyed();
-        }
 
-        // 경험치 스폰 로직 추가
+    /// <summary>
+    /// 경험치 드롭
+    /// </summary>
+    private void SpawnExpOrb()
+    {
         int currentTier = TimeManager.Instance.CurrentTier;
         int maxTier = ExpOrbSpawner.Instance.ExpOrbPrefabList.Count - 1;
-        int spawnTier = Mathf.Clamp(currentTier + 1, 0, maxTier); // 현재 티어 +1 (최대 티어 제한)
+        int spawnTier = Mathf.Clamp(currentTier + 1, 0, maxTier);
 
-        ExpOrbSpawner.Instance.SpawnExpOrb(transform.position, spawnTier); // 현재 위치에 경험치 스폰
-
-        Destroy(gameObject); // 오브젝트 제거
+        ExpOrbSpawner.Instance.SpawnExpOrb(transform.position, spawnTier);
     }
 }

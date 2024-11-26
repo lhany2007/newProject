@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -7806823573408384140}
   - component: {fileID: 6410926765832400187}
   - component: {fileID: 3726461158858209499}
-  - component: {fileID: -5313757958793109889}
+  - component: {fileID: 4896760655328383160}
   m_Layer: 6
   m_Name: Slime
   m_TagString: Slime
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
---- !u!114 &-5313757958793109889
+--- !u!114 &4896760655328383160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,6 +227,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6903735661974652481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32a15a6749606b3488c79d62e8e32e68, type: 3}
+  m_Script: {fileID: 11500000, guid: fbf3938cbc7da6a43b700242ba2b98bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

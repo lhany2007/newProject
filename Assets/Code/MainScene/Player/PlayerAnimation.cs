@@ -60,7 +60,7 @@ public class PlayerAnimation : MonoBehaviour
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
         // 애니메이션이 시작될 때까지 대기
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("AttackThePlayer"))
         {
             yield return null;
         }

@@ -7,7 +7,6 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance;
 
     public UnityEvent<int> OnTierChange; // 티어가 변경될 때 발생하는 이벤트
-    public MonsterSpawner monsterSpawner;
 
     private PlayerStats playerStats;
 
@@ -18,8 +17,6 @@ public class TimeManager : MonoBehaviour
     public int CurrentTier = 0; // 현재 경험치 구슬의 티어
     public int DebuffIndex = 0;
     public int MonsterTier = 0;
-
-    Collision2D collision2D = null;
 
     float monsterSpawnTime = 5f; // 스폰 쿨타임
     float regenerationTime = 3f; // 경험치 구슬 생성 쿨타임
@@ -46,9 +43,9 @@ public class TimeManager : MonoBehaviour
         NextMonsterTime += Time.deltaTime;
 
         if (timeSinceLastSpawn >= monsterSpawnTime &&
-            monsterSpawner.MonstersSpawned < monsterSpawner.MaxMonsters)
+            MonsterSpawner.Instance.MonstersSpawned < MonsterSpawner.Instance.MaxMonsters)
         {
-            monsterSpawner.SpawnMonster();
+            MonsterSpawner.Instance.SpawnMonster();
             timeSinceLastSpawn = 0f;
         }
 
@@ -65,7 +62,7 @@ public class TimeManager : MonoBehaviour
             OnTierChange.Invoke(CurrentTier); // 티어 변경 이벤트 호출
         }
 
-        playerStats.TakeDamage(0.001f, collision2D); // 산소가 줄어듦
+        playerStats.TakeDamage(0.001f, transform.position, false); // 산소가 줄어듦
     }
 
     // 다음 티어까지 남은 시간을 반환하는 함수

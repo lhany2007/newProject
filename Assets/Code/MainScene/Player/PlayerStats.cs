@@ -56,16 +56,8 @@ public class PlayerStats : MonoBehaviour
     }
 
     // HP
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer(Tags.MONSTER_LAYER))
-        {
-            float damage = MonsterManager.Instance.monsterStats.stats.Damage(MonsterManager.Instance.GetMonsterNameIndex(collision.gameObject.tag));
-            TakeDamage(damage, collision);
-        }
-    }
-
-    public void TakeDamage(float damage, Collision2D collision)
+    
+    public void TakeDamage(float damage, Vector3 targetVec, bool shouldKnockback)
     {
         if (isDead || isInvincible)
         {
@@ -80,9 +72,9 @@ public class PlayerStats : MonoBehaviour
             // Die();
         }
         // collision == null이면 TimeManager로부터 받는 데미지(넉백 X)
-        if (collision != null)
+        if (shouldKnockback)
         {
-            PlayerMovement.Instance.ApplyKnockback(transform.position, collision.transform.position);
+            PlayerMovement.Instance.ApplyKnockback(transform.position, targetVec);
             StartCoroutine(InvincibilityDelay());
         }
     }
@@ -97,7 +89,7 @@ public class PlayerStats : MonoBehaviour
     // XP
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag(Tags.EXP_TAG))
+        if (collider.gameObject.CompareTag(GameConstants.Tags.XP.ToString()))
         {
             int orbType = int.Parse(collider.gameObject.name.Split('_')[1]);
             CollectExpOrb(collider.gameObject, orbType);
@@ -133,8 +125,7 @@ public class PlayerStats : MonoBehaviour
 
     private void UpdateXPUI()
     {
-        float xpRatio = CurrentXP / XpSliderMaxValue;
-        sliderManager.SliderDictionary["XP"].value = xpRatio;
+        sliderManager.SliderDictionary["XP"].value = CurrentXP;
     }
 
     private void UpdateLevelText()

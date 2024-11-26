@@ -33,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         // 애니메이터의 현재 상태를 확인
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("AttackThePlayer"))
         {
             isAttacking = true;
             int frameIndex = GetCurrentFrameIndex();
