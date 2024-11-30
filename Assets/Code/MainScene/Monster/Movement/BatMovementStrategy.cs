@@ -28,7 +28,7 @@ public class BatMovementStrategy : IMonsterMovementStrategy
         this.monster = monster;
         rb = monster.GetComponent<Rigidbody2D>();
         animator = monster.GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag(GameConstants.Tags.Player.ToString())?.transform;
+        player = GameObject.FindGameObjectWithTag(Tags.Player)?.transform;
 
         stats = monsterStats;
         baseSpeed = stats.Speed;
@@ -89,7 +89,7 @@ public class BatMovementStrategy : IMonsterMovementStrategy
     private IEnumerator AttackSequence()
     {
         currentState = MonsterMovementState.Anger;
-        animator.SetBool(GameConstants.AnimationParams.IsAngering.ToString(), true);
+        animator.SetBool(AnimationParams.Bat.IsAngering, true);
 
         // 분노 상태
         SetAngerState();
@@ -98,8 +98,8 @@ public class BatMovementStrategy : IMonsterMovementStrategy
 
         // 돌진 상태
         currentState = MonsterMovementState.Dash;
-        animator.SetBool(GameConstants.AnimationParams.IsAngering.ToString(), false);
-        animator.SetBool(GameConstants.AnimationParams.IsDashed.ToString(), true);
+        animator.SetBool(AnimationParams.Bat.IsAngering, false);
+        animator.SetBool(AnimationParams.Bat.IsDashed, true);
 
         yield return monster.StartCoroutine(PerformDash());
 
@@ -156,15 +156,14 @@ public class BatMovementStrategy : IMonsterMovementStrategy
     private IEnumerator ResetToIdle()
     {
         currentState = MonsterMovementState.Idle;
-        animator.SetBool(GameConstants.AnimationParams.IsDashed.ToString(), false);
+        animator.SetBool(AnimationParams.Bat.IsDashed, false);
         rb.linearVelocity = Vector2.zero;
         yield return new WaitForSeconds(1f);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        string playerTag = GameConstants.Tags.Player.ToString();
-        if (collision.gameObject.CompareTag(playerTag))
+        if (collision.gameObject.CompareTag(Tags.Player))
         {
             AttackThePlayer();
         }
@@ -191,8 +190,8 @@ public class BatMovementStrategy : IMonsterMovementStrategy
         currentState = MonsterMovementState.Knockback; // 넉백 중인 상태로 전환
 
         ResetAngerState();
-        animator.SetBool(GameConstants.AnimationParams.IsAngering.ToString(), false);
-        animator.SetBool(GameConstants.AnimationParams.IsDashed.ToString(), false);
+        animator.SetBool(AnimationParams.Bat.IsAngering, false);
+        animator.SetBool(AnimationParams.Bat.IsDashed, false);
         
         Knockback();
         

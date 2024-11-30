@@ -3,32 +3,58 @@ using System.Collections.Generic;
 
 public class WeaponManager : MonoBehaviour
 {
-    public static WeaponManager Instance;
+    public static WeaponManager Instance { get; private set; }
 
-    public Dictionary<string, int> WeaponDamageDictionary;
+    public WeaponData weaponData;
 
-    List<string> WeaponNameList;
-    List<int> WeaponDamageList;
+    public Dictionary<string, IWeaponAttackStrategy> WeaponStrategyDictionary;
 
-    void Awake()
+    private void Awake()
     {
-        Instance = this;
-    }
-
-    void Start()
-    {
-        WeaponDamageDictionary = new Dictionary<string, int>();
-        WeaponNameList = new List<string> { "Sword" };
-        WeaponDamageList = new List<int> { 33 };
-
-        WeaponDamageUpdate();
-    }
-
-    public void WeaponDamageUpdate()
-    {
-        for (int i = 0; i < WeaponNameList.Count; i++)
+        if (Instance != null && Instance != this)
         {
-            WeaponDamageDictionary.Add(WeaponNameList[i], WeaponDamageList[i]);
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+
+        InitializeDictionary();
+    }
+
+    private void InitializeDictionary()
+    {
+        WeaponStrategyDictionary = new Dictionary<string, IWeaponAttackStrategy>
+        {
+            { Weapons.Sword, new SwordAttackStrategy() }
+        };
+    }
+
+    public IWeaponAttackStrategy GetWeaponStrategy(string weaponName)
+    {
+        if (!WeaponStrategyDictionary.TryGetValue(weaponName, out IWeaponAttackStrategy weaponStrategy))
+        {
+            throw new System.Exception($"Weapon{weaponName}을 찾을 수 없음");
+        }
+        return weaponStrategy;
+    }
+
+    // 무기의 스탯 반환
+    public WeaponData.Stats GetWeaponStats(string weaponName)
+    {
+        if (!weaponData.WeaponDictionary.TryGetValue(weaponName, out WeaponData.WeaponInfo weapon))
+        {
+            throw new System.Exception($"Weapon{weaponName}을 찾을 수 없음");
+        }
+        return new WeaponData.Stats(weapon.damage, weapon.speed);
+    }
+
+    public WeaponData.WeaponInfo GetWeaponInfo(string weaponName)
+    {
+        if (!weaponData.WeaponDictionary.TryGetValue(weaponName, out WeaponData.WeaponInfo weapon))
+        {
+            throw new System.Exception($"Weapon{weaponName}을 찾을 수 없음");
+        }
+        return weapon;
     }
 }

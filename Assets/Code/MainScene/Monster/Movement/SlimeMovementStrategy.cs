@@ -20,25 +20,26 @@ public class SlimeMovementStrategy : IMonsterMovementStrategy
         this.monster = monster;
         animator = monster.GetComponent<Animator>();
         rb = monster.GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag(GameConstants.Tags.Player.ToString())?.transform;
+        player = GameObject.FindGameObjectWithTag(Tags.Player)?.transform;
 
         stats = monsterStats;
         speed = stats.Speed;
 
         monster.StartCoroutine(MoveRoutine());
-    }
 
-    public void Move()
-    {
-        animator.SetBool(GameConstants.AnimationParams.IsMoving.ToString(), isMoving);
-    }
-
-    private void MoveTowardsPlayer()
-    {
         if (player == null)
         {
             throw new NullReferenceException("Player is null");
         }
+    }
+
+    public void Move()
+    {
+        animator.SetBool(AnimationParams.Slime.IsMoving, isMoving);
+    }
+
+    private void MoveTowardsPlayer()
+    {
         Vector2 direction = (player.position - monster.transform.position).normalized;
         monster.transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
@@ -50,6 +51,7 @@ public class SlimeMovementStrategy : IMonsterMovementStrategy
 
         while (true)
         {
+            // 플레이어를 찾을 때까지 대기
             if (player == null)
             {
                 yield return endOfFrame;
@@ -72,8 +74,7 @@ public class SlimeMovementStrategy : IMonsterMovementStrategy
     
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        string playerTag = GameConstants.Tags.Player.ToString();
-        if (collision.gameObject.CompareTag(playerTag))
+        if (collision.gameObject.CompareTag(Tags.Player))
         {
             AttackThePlayer();
         }

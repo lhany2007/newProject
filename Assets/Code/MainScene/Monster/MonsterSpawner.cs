@@ -39,7 +39,7 @@ public class MonsterSpawner : MonoBehaviour
         spawnParent = transform; // 스폰된 몬스터들의 부모를 설정
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag(GameConstants.Tags.Player.ToString()).transform; // 플레이어를 태그로 찾기
+            player = GameObject.FindGameObjectWithTag(Tags.Player).transform; // 플레이어를 태그로 찾기
         }
         if (player == null)
         {

@@ -4,46 +4,34 @@ using System.Collections;
 public class PlayerAnimation : MonoBehaviour
 {
     public static PlayerAnimation Instance;
-
-    private const string IS_MOVING = "IsMoving";
-    private const string IS_MOVING_X = "isMovingX";
-    private const string IS_MOVING_Y = "isMovingY";
-    private const string MOVE_X = "moveX";
-    private const string MOVE_Y = "moveY";
-    private const string IS_MOUSE_CLICKED = "isMouseClicked";
-    public readonly string IS_KNOCKEDBACK = "isKnockedBack";
-
-    public bool IsAttacking = false;
-
+    public bool IsAttacking { get; private set; } = false;
 
     private float lastHorizontalDirection = 1f;
+    private Animator animator;
 
-    Animator animator;
-    PlayerMovement player;
-
-    void Awake()
+    private void Awake()
     {
         if (Instance != null)
         {
-            Debug.LogError("Player Instance가 이미 할당됨");
+            Debug.LogError("PlayerAnimation Instance가 이미 할당되었습니다.");
+            return;
         }
         Instance = this;
     }
 
-    void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
-        player = GetComponent<PlayerMovement>(); // ||  player = PlayerMovement.Instance;
     }
 
-    void Update()
+    private void Update()
     {
         UpdateAnimationStates();
         HandleAttackInput();
         UpdatePlayerDirection();
     }
 
-    void HandleAttackInput()
+    private void HandleAttackInput()
     {
         if (Input.GetMouseButtonDown(0) && !IsAttacking)
         {
@@ -51,57 +39,42 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
-    IEnumerator AttackRoutine()
+    private IEnumerator AttackRoutine()
     {
         IsAttacking = true;
-        animator.SetTrigger(IS_MOUSE_CLICKED);
+        animator.SetTrigger(AnimationParams.Player.IsMouseClicked);
 
-        // 현재 애니메이션 상태 정보 가져오기
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        // 애니메이션 상태 확인 및 완료 대기
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("AttackThePlayer"));
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
 
-        // 애니메이션이 시작될 때까지 대기
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("AttackThePlayer"))
-        {
-            yield return null;
-        }
-
-        // 애니메이션 완료까지 대기
-        float normalizedTime = 0;
-        while (normalizedTime < 1.0f)
-        {
-            normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            yield return null;
-        }
-
-        // 상태 초기화
         IsAttacking = false;
     }
 
-    void UpdateAnimationStates()
+    private void UpdateAnimationStates()
     {
-        bool isMoving = player.InputVector.magnitude > 0;
-        bool isMovingHorizontally = player.InputVector.x != 0;
+        Vector2 inputVector = PlayerMovement.Instance.InputVector;
+        bool isMoving = inputVector.magnitude > 0;
+        bool isMovingHorizontally = inputVector.x != 0;
 
-        animator.SetBool(IS_MOVING, isMoving);
-        animator.SetFloat(MOVE_X, player.InputVector.x);
-        animator.SetFloat(MOVE_Y, player.InputVector.y);
-
-        animator.SetBool(IS_MOVING_X, isMovingHorizontally);
-        animator.SetBool(IS_MOVING_Y, player.InputVector.y != 0 && !isMovingHorizontally);
+        animator.SetBool(AnimationParams.Player.IsMoving, isMoving);
+        animator.SetFloat(AnimationParams.Player.MoveX, inputVector.x);
+        animator.SetFloat(AnimationParams.Player.MoveY, inputVector.y);
+        animator.SetBool(AnimationParams.Player.IsMovingX, isMovingHorizontally);
+        animator.SetBool(AnimationParams.Player.IsMovingY, inputVector.y != 0 && !isMovingHorizontally);
     }
 
-    /// <summary>
-    /// 좌우 반전
-    /// </summary>
-    void UpdatePlayerDirection()
+    private void UpdatePlayerDirection()
     {
-        // 수평 입력이 있을 때만 마지막 방향 업데이트
-        if (PlayerMovement.Instance.InputVector.x != 0)
+        float horizontalInput = PlayerMovement.Instance.InputVector.x;
+
+        // 수평 입력이 있는 경우 방향 업데이트
+        if (horizontalInput != 0)
         {
-            lastHorizontalDirection = Mathf.Sign(PlayerMovement.Instance.InputVector.x);
+            lastHorizontalDirection = Mathf.Sign(horizontalInput);
         }
 
-        // 스프라이트 방향 설정
+        // 좌우 반전
         transform.localScale = new Vector3(lastHorizontalDirection, 1f, 1f);
     }
 }

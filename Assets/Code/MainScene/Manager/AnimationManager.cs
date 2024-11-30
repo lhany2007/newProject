@@ -4,6 +4,8 @@ public class AnimationManager : MonoBehaviour
 {
     public static AnimationManager Instance { get; private set; }
 
+    private Animator animator;
+
     void Awake()
     {
         if (Instance == null)

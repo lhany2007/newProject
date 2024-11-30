@@ -130,6 +130,11 @@ public class SliderManager
         }
     }
 
+    public void UpdateXPSlider(float xp)
+    {
+        SliderDictionary["XP"].value = xp;
+    }
+
     public void AddSliders(string name, Slider slider)
     {
         SliderDictionary.Add(name, slider);

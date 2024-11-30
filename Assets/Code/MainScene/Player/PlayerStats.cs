@@ -49,24 +49,20 @@ public class PlayerStats : MonoBehaviour
     private void InitializeStats()
     {
         currentHP = MaxHP;
-
         CurrentXP = START_XP_VALUE;
-        UpdateXPUI();
+        sliderManager.UpdateXPSlider(CurrentXP);
         UpdateLevelText();
     }
 
     // HP
-    
     public void TakeDamage(float damage, Vector3 targetVec, bool shouldKnockback)
     {
         if (isDead || isInvincible)
         {
             return;
         }
-
         currentHP -= damage;
         sliderManager.SliderDictionary["HP"].value = currentHP;
-
         if (currentHP <= 0 && !isDead)
         {
             // Die();
@@ -89,7 +85,7 @@ public class PlayerStats : MonoBehaviour
     // XP
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag(GameConstants.Tags.XP.ToString()))
+        if (collider.gameObject.CompareTag(Tags.XP))
         {
             int orbType = int.Parse(collider.gameObject.name.Split('_')[1]);
             CollectExpOrb(collider.gameObject, orbType);
@@ -100,10 +96,8 @@ public class PlayerStats : MonoBehaviour
     {
         float xpIncrease = ExpOrbSpawner.Instance.XPIncrease[orbType];
         CurrentXP += xpIncrease;
-
         CheckAndProcessLevelUp();
-        UpdateXPUI();
-
+        sliderManager.UpdateXPSlider(CurrentXP);
         ExpOrbSpawner.Instance.CollectExpOrb(orb, orbType);
     }
 
@@ -121,11 +115,6 @@ public class PlayerStats : MonoBehaviour
     {
         CurrentLevel++;
         UpdateLevelText();
-    }
-
-    private void UpdateXPUI()
-    {
-        sliderManager.SliderDictionary["XP"].value = CurrentXP;
     }
 
     private void UpdateLevelText()

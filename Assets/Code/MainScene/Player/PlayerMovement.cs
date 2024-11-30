@@ -1,21 +1,15 @@
 using UnityEngine;
-
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance;
-
     Rigidbody2D rb;
     Animator animator;
-
     [SerializeField] float speed = 5f;
     [SerializeField] float knockbackDuration = 0.5f; // ³Ë¹é Áö¼Ó ½Ã°£
     [SerializeField] private float knockbackForce = 5f; // ³Ë¹é
-
     public Vector2 InputVector;
-
     bool isKnockedBack = false;
     float knockbackEndTime;
-
     void Awake()
     {
         if (Instance != null)
@@ -24,40 +18,34 @@ public class PlayerMovement : MonoBehaviour
         }
         Instance = this;
     }
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
-
     void Update()
     {
-        HandleInput();
+        PlayerInput();
     }
-
-    void HandleInput()
+    void PlayerInput()
     {
         InputVector.x = Input.GetAxisRaw("Horizontal");
         InputVector.y = Input.GetAxisRaw("Vertical");
-
         if (InputVector.magnitude > 1)
         {
             InputVector.Normalize();
         }
     }
-
     public void ApplyKnockback(Vector3 pos, Vector3 targetVec)
     {
         if (isKnockedBack) return;
         isKnockedBack = true;
         knockbackEndTime = Time.time + knockbackDuration;
-        animator.SetBool(PlayerAnimation.Instance.IS_KNOCKEDBACK, isKnockedBack);
+        animator.SetBool(AnimationParams.Player.IsKnockedBack, isKnockedBack);
         AnimationManager.Instance.StopAnimation(animator);
         KnockbackManager.Instance.ApplyKnockback(rb, knockbackForce, pos, targetVec);
         AnimationManager.Instance.StartAnimation(animator);
     }
-
     void FixedUpdate()
     {
         if (isKnockedBack)
@@ -65,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             if (Time.time >= knockbackEndTime)
             {
                 isKnockedBack = false;
-                animator.SetBool(PlayerAnimation.Instance.IS_KNOCKEDBACK, isKnockedBack);
+                animator.SetBool(AnimationParams.Player.IsKnockedBack, isKnockedBack);
             }
         }
         else

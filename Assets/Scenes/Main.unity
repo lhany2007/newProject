@@ -462,10 +462,9 @@ GameObject:
   - component: {fileID: 247816051}
   - component: {fileID: 247816054}
   - component: {fileID: 247816056}
-  - component: {fileID: 247816057}
   m_Layer: 8
   m_Name: Sword
-  m_TagString: weapon
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -595,18 +594,6 @@ PolygonCollider2D:
       - {x: -0.44513124, y: -0.13603806}
       - {x: -0.35591316, y: -0.063530445}
   m_UseDelaunayMesh: 0
---- !u!114 &247816057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247816050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39d966134c9ddb64f9c520b6ca3511e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &355792905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,6 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1428e0f69e015cf4d9e00a7c0ac3a26a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 4db359bf466c98440acee648702f38e0, type: 2}
 --- !u!114 &881019156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2254,11 +2242,9 @@ GameObject:
   - component: {fileID: 1832067200}
   - component: {fileID: 1832067199}
   - component: {fileID: 1832067197}
-  - component: {fileID: 1832067201}
-  - component: {fileID: 1832067205}
   - component: {fileID: 1832067207}
-  - component: {fileID: 1832067208}
   - component: {fileID: 1832067209}
+  - component: {fileID: 1832067210}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2365,35 +2351,6 @@ Transform:
   - {fileID: 247816051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1832067201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832067196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 668d281975aca9b4f8f6864ad032d83f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  knockbackDuration: 0.5
-  knockbackForce: 5
-  InputVector: {x: 0, y: 0}
---- !u!114 &1832067205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832067196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb8cdd81f919d734e9bb5b5cccbb2265, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsAttacking: 0
 --- !u!95 &1832067207
 Animator:
   serializedVersion: 7
@@ -2416,23 +2373,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1832067208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832067196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2152b3cb7eaa85048af710084d1a2453, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxHP: 1000
-  currentHP: 0
-  CurrentLevel: 1
-  CurrentXP: 0
-  XpSliderMaxValue: 30
 --- !u!70 &1832067209
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2470,6 +2410,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.34, y: 0.55}
   m_Direction: 0
+--- !u!114 &1832067210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832067196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d966134c9ddb64f9c520b6ca3511e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponCollider: {fileID: 247816056}
+  weapon: {fileID: 247816050}
 --- !u!1 &1931039464
 GameObject:
   m_ObjectHideFlags: 0

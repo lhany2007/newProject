@@ -21,7 +21,7 @@ public class MonsterMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag(GameConstants.Tags.Player.ToString())?.transform;
+        player = GameObject.FindGameObjectWithTag(Tags.Player)?.transform;
 
         // 몬스터의 스탯 데이터를 가져옴
         if (!TryGetMonsterStats(out stats))

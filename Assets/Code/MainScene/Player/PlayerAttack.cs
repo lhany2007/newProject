@@ -1,123 +1,76 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public static PlayerAttack Instance;
+    protected IWeaponAttackStrategy attackStrategy;
 
-    const string MONSTER_LAYER = "Monster";
+    protected WeaponData.Stats stats;
+    protected WeaponData.WeaponInfo weaponInfo;
 
-    bool isAttacking = false;
+    [SerializeField] protected PolygonCollider2D weaponCollider;
+    [SerializeField] protected GameObject weapon;
 
-    PolygonCollider2D SwordCollider;
-    Animator animator;
-    Dictionary<int, Vector2[]> colliderShapes;
+    protected Animator animator;
+    private bool isAttacking = false;
 
-    void Awake()
+    protected virtual void Start()
     {
-        Instance = this;
+        InitializeComponents();
+        InitializeStrategy();
+        UpdateCollider(0); // 기본 콜라이더 모양 설정
     }
 
-    void Start()
+    protected virtual void InitializeComponents()
     {
-        animator = PlayerAnimation.Instance.GetComponent<Animator>();
-        SwordCollider = GetComponent<PolygonCollider2D>();
-
-        colliderShapes = new Dictionary<int, Vector2[]>();
-
-        InitializeColliderShapes();
-        UpdateColliderShape(0); // 기본 콜라이더 모양 설정
+        animator = GetComponent<Animator>();
+        stats = WeaponManager.Instance.GetWeaponStats(weapon.tag);
+        weaponInfo = WeaponManager.Instance.GetWeaponInfo(weapon.tag);
     }
 
-
-    void Update()
+    protected virtual void InitializeStrategy()
     {
+        attackStrategy = WeaponManager.Instance.GetWeaponStrategy(weapon.tag);
+        attackStrategy?.Initialize(weaponCollider, stats, weaponInfo);
+    }
+
+    protected virtual void UpdateCollider(int shapeIndex)
+    {
+        attackStrategy?.TransformCollider(shapeIndex);
+    }
+
+    private void Update()
+    {
+        string aniName = AnimationParams.Player.Attack;
         // 애니메이터의 현재 상태를 확인
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("AttackThePlayer"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(aniName))
         {
             isAttacking = true;
             int frameIndex = GetCurrentFrameIndex();
-            UpdateColliderShape(frameIndex);
+            UpdateCollider(frameIndex);
         }
         else
         {
             if (isAttacking)
             {
                 isAttacking = false;
-                UpdateColliderShape(0); // Default 상태
+                UpdateCollider(0); // Default 상태
             }
         }
     }
 
     // 현재 애니메이션 프레임 인덱스를 반환하는 함수
-    int GetCurrentFrameIndex()
+    private int GetCurrentFrameIndex()
     {
         float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         int frameIndex = Mathf.Clamp(Mathf.FloorToInt(normalizedTime * 6), 0, 5);
         return frameIndex;
     }
 
-    // 콜라이더 모양 업데이트 함수
-    void UpdateColliderShape(int shapeIndex)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (colliderShapes.ContainsKey(shapeIndex))
+        if (other.gameObject.layer == LayerMask.NameToLayer(Layers.Monster))
         {
-            SwordCollider.SetPath(0, colliderShapes[shapeIndex]);
+            attackStrategy?.ApplyDamage(other, stats.Damage);
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer(MONSTER_LAYER))
-        {
-            MonsterHealth monsterHealth = other.GetComponent<MonsterHealth>();
-            if (monsterHealth != null)
-            {
-                monsterHealth.TakeDamage(WeaponManager.Instance.WeaponDamageDictionary["Sword"]);
-            }
-        }
-    }
-
-    void InitializeColliderShapes()
-    {
-        colliderShapes[0] = new Vector2[]
-        {
-            new Vector2(-0.6131981f, -0.1019547f),
-            new Vector2(-0.6170515f, -0.1001165f),
-            new Vector2(-0.6246028f, -0.09046727f)
-        };
-        colliderShapes[1] = new Vector2[]
-        {
-            new Vector2(-0.6131981f, -0.1019547f),
-            new Vector2(-0.6170515f, -0.1001165f),
-            new Vector2(-0.6246028f, -0.09046727f)
-        };
-        colliderShapes[2] = new Vector2[]
-        {
-            new Vector2(-0.6131981f, -0.1019547f),
-            new Vector2(-0.6170515f, -0.1001165f),
-            new Vector2(-0.6246028f, -0.09046727f)
-        };
-        colliderShapes[3] = new Vector2[]
-        {
-            new Vector2(-0.1455676f, 0.4725608f),
-            new Vector2(-0.2407014f, 0.07932141f),
-            new Vector2(0.1497979f, -0.2814952f),
-            new Vector2(0.1586419f, -0.5188532f),
-            new Vector2(-0.05778766f, -0.7077841f),
-            new Vector2(-0.4899519f, -0.8047636f),
-            new Vector2(-0.02114609f, -0.8255388f),
-            new Vector2(0.3538362f, -0.6984227f),
-            new Vector2(0.468684f, -0.3411185f),
-            new Vector2(0.3684494f, 0.06580618f),
-            new Vector2(0.02376658f, 0.4493866f)
-        };
-        colliderShapes[4] = colliderShapes[3];
-        colliderShapes[5] = new Vector2[]
-        {
-            new Vector2(-0.6131981f, -0.1019547f),
-            new Vector2(-0.6170515f, -0.1001165f),
-            new Vector2(-0.6246028f, -0.09046727f)
-        };
     }
 }
